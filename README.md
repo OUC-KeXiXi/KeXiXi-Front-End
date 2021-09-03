@@ -158,6 +158,22 @@ methods: {
       this.$message.error('请求时出错！');
       console.log(error);
     })
+  },
+  getNickname(){
+    get_test(this.username).then((response) => {
+      if (response.data.code === 20000) {
+        //结果返回的状态码正常
+        dosomething();
+      }
+      else {
+        //根据其他状态码处理错误
+        notifyerror();
+      }
+    }).catch((error) => {
+      //无请求返回时的异常处理
+      this.$message.error('请求时出错！');
+      console.log(error);
+    })
   }
 }
 ```
