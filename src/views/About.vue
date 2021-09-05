@@ -1,5 +1,26 @@
+//测试用页面，随便在这里写东西，进度到了随时会删
+
+
+
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <LoginDialog is_register:false/>
   </div>
 </template>
+
+<script>
+
+import LoginDialog from '../components/LoginDialog.vue'
+
+export default {
+  name: "About",
+  components:{
+    LoginDialog
+  },
+};
+</script>
+
+<style scoped lang="less">
+@import '../style/style.less';
+
+</style>

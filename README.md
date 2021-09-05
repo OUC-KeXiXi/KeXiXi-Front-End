@@ -31,6 +31,7 @@ npm run build
 - components: 前端组件
 - router: 项目路由
 - store: vuex相关，暂且不管
+- style: 存放Less(CSS)样式文件
 - utils: 组件 js，遵循 Vue 全局组件的写法，可以方便 api 内的函数调用
 - views: 前端页面的代码
 
@@ -139,7 +140,7 @@ export function get_test(id) {
 后续处理别写这儿，写在需要页面的methods里
 
 使用例：
-```vue
+```js
 methods: {
   changeNickname(){
     post_test({
@@ -176,4 +177,25 @@ methods: {
     })
   }
 }
+```
+
+### Less预处理器使用
+本项目使用了Less作为CSS预处理器，在页面中使用需要引入定义了全局Less变量的less文件，页面中也可局部定义各种特性
+
+目前定义了主要颜色（深）和次要颜色（浅）两种颜色变量作为全局变量
+
+使用例如下:
+
+```less
+/*./src/style/style.less*/
+@primary-color:#0d5756;
+@secondary-color:#a6dbe1;
+
+/*./src/views/About.vue*/
+<style scoped lang="less">
+@import '../style/style.less';
+.about{
+  color: @primary-color;
+}
+</style>
 ```
