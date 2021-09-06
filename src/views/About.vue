@@ -4,7 +4,7 @@
 
 <template>
   <div class="about">
-    <LoginDialog is_register:false/>
+    <LoginDialog :is_register="true"/>
   </div>
 </template>
 

@@ -1,0 +1,14 @@
+/* 改变 icon 字体路径变量，必需 */
+$--color-primary: #0d5756;
+$--font-path: "~element-plus/theme-chalk/fonts";
+@import "~element-plus/packages/theme-chalk/src/index";
+
+.el-button--primary {
+    --el-button-font-color: #ffffff;
+    --el-button-background-color: #0d5756;
+    --el-button-border-color: #0d5756;
+    --el-button-hover-color: #0d6756;
+    --el-button-active-font-color: #e6e6e6;
+    --el-button-active-background-color: #0d4756;
+    --el-button-active-border-color: #0d4756;
+}

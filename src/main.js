@@ -9,7 +9,8 @@ import less from 'less'
 
 //引入Elenent-UI
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+import '../src/style/element-variables.scss'
+import '../src/style/style.less'
 
 const app = createApp(App);
 
