@@ -1,0 +1,20 @@
+import Vue from 'vue'
+import { Button, Container, Header, Main, Menu, MenuItem, Aside, MenuItemGroup, Submenu, Dialog, Form, FormItem, Card, Input, Avatar, Table, TableColumn } from 'element-ui'
+
+Vue.use(Button)
+Vue.use(Container)
+Vue.use(Header)
+Vue.use(Main)
+Vue.use(Menu)
+Vue.use(MenuItem)
+Vue.use(Aside)
+Vue.use(MenuItemGroup)
+Vue.use(Submenu)
+Vue.use(Dialog)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Card)
+Vue.use(Input)
+Vue.use(Avatar)
+Vue.use(Table)
+Vue.use(TableColumn)
