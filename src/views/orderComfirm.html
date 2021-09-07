@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+    <div id="app">
+        <el-container style="height: 760px">
+            <el-header style="background-color: rgb(205, 210, 224);">导航栏</el-header>
+            <el-main style="background-color: rgb(242, 244, 248);">
+                <div style="width: 100%; margin-top: -70px; margin-bottom: -100px;">
+                    <b>背景图</b>
+                    <!--
+                    <img class="img1" src="src/assets/bg.jpg" width="1465px"/>
+                    -->
+                </div>
+                <div id="mainPanel" style="width: 100%;">
+                    <el-container style="width: 84%; margin-left: 8%;">
+                        <el-header style="
+                        background-color: rgba(0, 0, 0, 0); 
+                        height: 100px;
+                        line-height: 100px;
+                        ">
+                            <b style="
+                            font-size: xx-large; 
+                            font-weight: lighter; 
+                            margin-right: 10px;
+                            ">确认订单</b>
+                            <b style="
+                            font-size: small; 
+                            font-weight: lighter;
+                            margin-right: 900px;    
+                            ">共{{lessons.length}}门课程</b>
+                        </el-header>
+                        <el-main style="
+                        background-color: rgb(253, 253, 253); 
+                        border-radius: 15px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+                        ">
+                        <div id="sub-header" align="left" style="margin-top: 10px;margin-bottom: -60px; margin-left: 30px; height: 90px;line-height: 30px;">
+                            <i class="el-icon-goods"></i>
+                            <b style="
+                            font-size: medium;
+                            font-weight: lighter; 
+                            ">订单号：21092768653216865</b>
+                            <b style="
+                            margin-left: 700px;
+                            font-size: medium;
+                            font-weight: lighter; 
+                            ">订单时间：{{getCurrentTime}}</b>
+                        </div>
+                        <el-divider></el-divider>
+                        <template v-for="(item, index) in lessons">
+                            <div id="lesson" class="flex" style="height: 80px; line-height: 20px; width:1100px">
+                                <b style="margin-right: 50px;">{{index+1}}</b>
+                                <img :src="item.img" style="margin-right: 20px;"/>
+                                <b style="max-width: 400px; text-align: left; margin-right: 60px;">{{item.title}}</b>
+                                <b style="margin-right: 170px;width: 75px;">￥ {{item.price}}</b>
+                                <el-button @click="deleteBtn(item.id)" icon="el-icon-delete" style="margin-left:10px; margin-right:-10px; font-size: 15px;" circle></el-button>
+                            </div>
+                            <el-divider></el-divider>
+                        </template>
+                        <div id="payment" align="left" style="margin-bottom: -60px; margin-left: 30px; height: 90px;line-height: 30px;">
+                            <i class="el-icon-bank-card"></i>
+                            <b style="
+                            font-size: medium;
+                            font-weight: lighter; 
+                            ">支付方式</b>
+                            <b style="
+                            margin-left: 780px;
+                            color: rgb(236, 27, 27);
+                            font-size: medium;
+                            font-weight: lighter; 
+                            ">使用银联支付，随机减免1-5元</b>
+                        </div>
+                        <div style="margin-top: 20px;margin-bottom: -60px;">
+                            <img v-if="!isAli" src="src/assets/AliPay.jpg" border="2" @click="alipay"
+                            style="cursor: pointer;border-radius: 10px; border-color: rgb(201, 202, 211); margin-right: 50px; margin-left: 0px;"/>
+                            <img v-if="isAli" src="src/assets/AliPay.jpg" border="2" @click="alipayCancel"
+                            style="cursor: pointer;border-radius: 10px; border-color: rgb(247, 13, 13); margin-right: 50px; margin-left: 0px;"/>
+                            
+
+                            <img v-if="!isWe" src="src/assets/WechatPay.jpg" border="2" @click="wechatpay"
+                            style="cursor: pointer;border-radius: 10px; border-color: rgb(201, 202, 211); margin-right: 50px; margin-left: 0px;"/>
+                            <img v-if="isWe" src="src/assets/WechatPay.jpg" border="2" @click="wechatpayCancel"
+                            style="cursor: pointer;border-radius: 10px; border-color: rgb(247, 13, 13); margin-right: 50px; margin-left: 0px;"/>
+
+                            <img v-if="!isUnion" src="src/assets/UnionPay.jpg" border="2" @click="unionpay"
+                            style="cursor: pointer;border-radius: 10px; border-color: rgb(201, 202, 211);"/>
+                            <img v-if="isUnion" src="src/assets/UnionPay.jpg" border="2" @click="unionpayCancel"
+                            style="cursor: pointer;border-radius: 10px; border-color: rgb(247, 13, 13);"/>
+                        </div>
+                        <el-divider></el-divider>
+                        <div align="right" style="margin-bottom: -80px; margin-right: -20px; height: 90px;line-height: 30px">
+                            <i class="el-icon-warning" style="color: rgb(255, 153, 0);"></i>
+                            <b style="margin-right: 550px; font-weight: lighter; color: rgb(255, 153, 0);">已为您锁定课程席位，网课服务认准课夕夕！</b>
+                            <b style="font-weight: lighter;">应付金额：</b>
+                            <b style="color: red; font-size: x-large; width: 150px;text-align: left;margin-right: 50px;">￥ {{totalCount}}.00</b>
+                        </div>
+                        <div align="right" style="height: 100px;margin-top: -80px;margin-bottom: 30px;">
+                            <el-button type="danger" size="large" style="
+                            background-color: red; 
+                            height: 50px; 
+                            width: 150px; 
+                            font-size: large;
+                            font-weight: lighter;
+                            margin-right: 30px;
+                            margin-top: 0px;
+                            ">立即支付</el-button>
+                        </div>
+                        <div align="right" style="height: 100px;margin-top: -70px;margin-bottom: 10px; margin-right: 30px;">
+                            <el-button type="text">付款问题反馈</el-button>
+                        </div>
+                        </el-main>
+                    </el-container>
+                </div>
+            </el-main>
+        </el-container>
+    </div>
+</body>
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        var Main = {
+            data(){
+                return{
+                    lessons:[
+                        {
+                        id:001,
+                        img: '../assets/class1.jpg',
+                        title: '【实战课】体系课-Go+Python双语言混合开发 盯紧技术先机 抓紧高薪机遇',
+                        price:68,
+                        checked:true
+                        },
+                        {
+                        id:002,
+                        img: '../assets/class2.jpg',
+                        title: '【实战课】笑傲Java面试 深度剖析大厂面试高频真题 让你秒变offer收割机',
+                        price:299,
+                        checked:true
+                        },
+                        {
+                        id:003,
+                        img: '../assets/class3.jpg',
+                        title: '【实战课】 Spring Cloud / Alibaba 微服务架构实战，从架构设计到开发实践，手把手实现',
+                        price:98,
+                        checked:true
+                        }
+                    ],
+                    isAli:true,
+                    isWe:false,
+                    isUnion:false
+                }
+            },
+            methods:{
+                deleteBtn(val){
+                    this.$confirm('此操作将会在订单中删除该项，是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        for(let i = 0; i < this.lessons.length; i++){
+                            if(this.lessons[i].id==val){
+                                this.lessons.splice(i, 1);
+                            }
+                        }
+                    }).catch(() => {
+                    });
+                },
+                alipay(){
+                    this.isAli=true;
+                    this.isUnion=false;
+                    this.isWe=false;
+                },
+                alipayCancel(){
+                    this.isAli=false;
+                },
+                wechatpay(){
+                    this.isWe=true;
+                    this.isAli=false;
+                    this.isUnion=false;
+                },
+                wechatpayCancel(){
+                    this.isWe=false;
+                },
+                unionpay(){
+                    this.isUnion=true;
+                    this.isWe=false;
+                    this.isAli=false;
+                },
+                unionpayCancel(){
+                    this.isUnion=false;
+                }
+            },
+            computed:{
+                totalCount(){
+                    var totalCount = 0;
+                    for(let i = 0; i < this.lessons.length; i++){
+                        if(this.lessons[i].checked == true){
+                            totalCount += this.lessons[i].price;
+                        }
+                    }
+                    return totalCount;
+                },
+                choceNum(){
+                    var num = 0;
+                    for(let i = 0; i < this.lessons.length; i++){
+                        if(this.lessons[i].checked == true)
+                            num++;
+                    }
+                    return num;
+                },
+                getCurrentTime() {
+                    //获取当前时间并打印
+                    var _this = this;
+                　　let yy = new Date().getFullYear();
+                　　let mm = new Date().getMonth()+1;
+                　　let dd = new Date().getDate();
+                　　_this.gettime = yy+'.'+mm+'.'+dd
+                    return _this.gettime;
+                }
+            }
+        }
+        var app=Vue.extend(Main)
+        new app().$mount('#app')
+    </script>
+    <style>
+        .el-row {
+          margin-bottom: 20px;
+        }
+        .el-col {
+          border-radius: 4px;
+        }
+        .bg-purple-dark {
+          background: #99a9bf;
+        }
+        .bg-purple {
+          background: #d3dce6;
+        }
+        .bg-purple-light {
+          background: #e5e9f2;
+        }
+        .grid-content {
+          border-radius: 0px;
+          min-height: 36px;
+        }
+        .row-bg {
+          padding: 10px 0;
+          background-color: #f9fafc;
+        }
+        .el-header, .el-footer {
+            background-color: #ffffff;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+        .el-aside {
+            background-color: #D3DCE6;
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+        }
+        .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+            line-height: 160px;
+        }
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+        .el-container:nth-child(5) .el-aside,
+        .el-container:nth-child(6) .el-aside {
+            line-height: 260px;
+        }
+        .el-container:nth-child(7) .el-aside {
+            line-height: 320px;
+        } 
+
+        a:link{
+            color:#333;
+            text-decoration:none;
+        }
+        a:visited{
+            color:#333;
+            text-decoration:none;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .app{
+            margin: 0 auto;
+        }
+        .flex{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+      </style>
+</html>

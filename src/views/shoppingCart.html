@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+    <div id="app">
+        <el-container style="height: 760px">
+            <el-header style="background-color: rgb(205, 210, 224);">导航栏</el-header>
+            <el-main style="background-color: rgb(242, 244, 248);">
+                <div style="width: 100%; margin-top: -70px; margin-bottom: -100px;">
+                    <b>背景图</b>
+                    <!--
+                    <img class="img1" src="src/assets/bg.jpg" width="1465px"/>
+                    -->
+                </div>
+                <div id="mainPanel" style="width: 100%;">
+                    <el-container style="width: 84%; margin-left: 8%;">
+                        <el-header style="
+                        background-color: rgba(0, 0, 0, 0); 
+                        height: 100px;
+                        line-height: 100px;
+                        ">
+                            <b style="
+                            font-size: xx-large; 
+                            font-weight: lighter; 
+                            margin-right: 10px;
+                            ">我的购物车</b>
+                            <b style="
+                            font-size: small; 
+                            font-weight: lighter;
+                            margin-right: 750px;
+                            ">共{{lessons.length}}门，已选择{{choceNum}}门</b>
+                            <a href="https://www.baidu.com/" style="font-weight: lighter;">我的历史订单</a>
+                        </el-header>
+                        <el-main style="
+                        background-color: rgb(253, 253, 253); 
+                        border-radius: 15px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+                        ">
+                        <div id="sub-header" align="left" style="margin-top: -50px; margin-left: 30px; height: 90px;">
+                            <el-checkbox v-on:change="choceAllLesson" v-model="allSelect" label="全选" border></el-checkbox>
+                            <b style="
+                            font-size: medium;
+                            font-weight: lighter; 
+                            margin-left: 30px;
+                            ">课程</b>
+                            <b style="
+                            font-size: medium; 
+                            font-weight: lighter; 
+                            margin-left: 600px;
+                            padding-left: 20px;
+                            ">金额</b>
+                            <b style="
+                            font-size: medium; 
+                            font-weight: lighter; 
+                            margin-left: 200px;
+                            ">操作</b>
+                        </div>
+                        <el-divider></el-divider>
+                        <p v-if="isShow" style="line-height: 40px; font-size: x-large; font-weight: lighter;">购物车里没有东西哦！</p>
+                        <template v-for="(item, index) in lessons">
+                            <div id="lesson" class="flex" style="height: 80px; line-height: 20px; width:1100px">
+                                <el-checkbox v-model="item.checked" :label="index+1" border style="margin-right: 50px;"
+                                :checked="item.checked"></el-checkbox>
+                                <a href="https://www.baidu.com/">
+                                <img :src="item.img" style="margin-right: 20px;"/>
+                                </a>
+                                <a href="https://www.baidu.com/" style="max-width: 400px; text-align: left; margin-right: 60px;">{{item.title}}</a>
+                                <b style="margin-right: 170px;width: 75px;">￥ {{item.price}}</b>
+                                <el-button @click="deleteBtn(item.id)" icon="el-icon-delete" style="margin-left:10px; margin-right:-10px; font-size: 15px;" circle></el-button>
+                            </div>
+                            <el-divider></el-divider>
+                        </template>
+                        </el-main>
+                    </el-container>
+                </div>
+            </el-main>
+            <el-footer style="
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+            height: 80px;
+            line-height: 80px;
+            padding-left: 800px;
+            ">
+                <div class="flex" style="height: 80px; line-height: 20px; width:650px">
+                <b style="font-weight: lighter;">总计金额：</b>
+                <b style="color: red; font-size: large; margin-right: -30px;width: 150px;text-align: left;">￥ {{totalCount}}</b>
+                <el-button type="danger" size="large" style="
+                background-color: red; 
+                height: 50px; 
+                width: 100px; 
+                font-size: large;
+                font-weight: lighter;
+                ">购买</el-button>
+                </div>
+            </el-footer>
+        </el-container>
+    </div>
+</body>
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        var Main = {
+            data(){
+                return{
+                    allSelect:false,
+                    lessons:[
+                        {
+                        id:001,
+                        img: '../assets/class1.jpg',
+                        title: '【实战课】体系课-Go+Python双语言混合开发 盯紧技术先机 抓紧高薪机遇',
+                        price:68,
+                        checked:false
+                        },
+                        {
+                        id:002,
+                        img: '../assets/class2.jpg',
+                        title: '【实战课】笑傲Java面试 深度剖析大厂面试高频真题 让你秒变offer收割机',
+                        price:299,
+                        checked:false
+                        },
+                        {
+                        id:003,
+                        img: '../assets/class3.jpg',
+                        title: '【实战课】 Spring Cloud / Alibaba 微服务架构实战，从架构设计到开发实践，手把手实现',
+                        price:98,
+                        checked:false
+                        }
+                    ],
+                    isShow:false
+                }
+            },
+            methods:{
+                choceAllLesson(){
+                    if(this.allSelect == true){
+                        for(let i = 0; i < this.lessons.length; i++){
+                            this.lessons[i].checked = true;
+                        }
+                    }else{
+                        for(let i = 0; i < this.lessons.length; i++){
+                            this.lessons[i].checked = false;
+                        }
+                    }
+                },
+                deleteBtn(val){
+                    this.$confirm('此操作将会在购物车中删除该项，是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        for(let i = 0; i < this.lessons.length; i++){
+                            if(this.lessons[i].id==val){
+                                this.lessons.splice(i, 1);
+                            }
+                        }
+                    }).catch(() => {
+                    });
+                }
+            },
+            computed:{
+                totalCount(){
+                    var totalCount = 0;
+                    for(let i = 0; i < this.lessons.length; i++){
+                        if(this.lessons[i].checked == true){
+                            totalCount += this.lessons[i].price;
+                        }
+                    }
+                    return totalCount;
+                },
+                choceNum(){
+                    var num = 0;
+                    for(let i = 0; i < this.lessons.length; i++){
+                        if(this.lessons[i].checked == true)
+                            num++;
+                    }
+                    return num;
+                }
+            }
+        }
+        var app=Vue.extend(Main)
+        new app().$mount('#app')
+    </script>
+    <style>
+        .el-row {
+          margin-bottom: 20px;
+        }
+        .el-col {
+          border-radius: 4px;
+        }
+        .bg-purple-dark {
+          background: #99a9bf;
+        }
+        .bg-purple {
+          background: #d3dce6;
+        }
+        .bg-purple-light {
+          background: #e5e9f2;
+        }
+        .grid-content {
+          border-radius: 0px;
+          min-height: 36px;
+        }
+        .row-bg {
+          padding: 10px 0;
+          background-color: #f9fafc;
+        }
+        .el-header, .el-footer {
+            background-color: #ffffff;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+        .el-aside {
+            background-color: #D3DCE6;
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+        }
+        .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+            line-height: 160px;
+        }
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+        .el-container:nth-child(5) .el-aside,
+        .el-container:nth-child(6) .el-aside {
+            line-height: 260px;
+        }
+        .el-container:nth-child(7) .el-aside {
+            line-height: 320px;
+        } 
+
+        a:link{
+            color:#333;
+            text-decoration:none;
+        }
+        a:visited{
+            color:#333;
+            text-decoration:none;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .app{
+            margin: 0 auto;
+        }
+        .flex{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+      </style>
+</html>
