@@ -4,16 +4,21 @@
 
 <template>
   <div class="about">
-    <el-button type="primary" @click="openDialog(false)">打开登录窗口</el-button>
-    <el-button type="primary" @click="openDialog(true)">打开注册窗口</el-button>
+    <div class="router">
+      <router-link to="/sellercenter">卖家中心</router-link>
+    </div>
+    <el-button type="primary" @click="openDialog(false)">登录</el-button>
+    <el-button type="primary" @click="openDialog(true)">注册</el-button>
     <el-button type="primary" @click="getStatusTest()">获取登录状态</el-button>
-    <LoginDialog ref="LoginDialog" :is_register="is_register" />
+    <el-button type="primary" @click="logout()">注销</el-button>
+    <LoginDialog ref="LoginDialog" :dialog="dialog" />
   </div>
 </template>
 
 <script>
 import LoginDialog from "../components/LoginDialog.vue";
-import { get_status } from "../api/account.js";
+import storage from "good-storage";
+import { get_status,logout } from "../api/account.js";
 
 export default {
   name: "About",
@@ -22,7 +27,9 @@ export default {
   },
   data() {
     return {
-      is_register: false,
+      dialog: {
+        is_register: false,
+      }
     };
   },
   methods: {
@@ -42,8 +49,24 @@ export default {
           console.log(error);
         });
     },
+    logout(){
+      logout().then((response)=>{
+        if (response.data.code === 20000){
+          //成功
+          // 清空本地缓存
+          storage.clear();
+          this.$message.success('注销成功！');
+        }
+        else {
+          this.$message.error('注销失败：'+response.data.msg);
+        }
+      }).catch((error)=>{
+        this.$message.error('请求时出错！');
+        console.log(error);
+      })
+    },
     openDialog(register) {
-      this.is_register = register;
+      this.dialog.is_register = register;
       this.$refs.LoginDialog.openDialog();
     },
   },

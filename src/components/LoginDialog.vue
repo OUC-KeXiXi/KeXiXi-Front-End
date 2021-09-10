@@ -7,7 +7,7 @@
       width="30%"
       center
       :close-on-click-modal="false"
-      v-if="is_register"
+      v-if="dialog.is_register"
     >
       <el-form
         :model="registerForm"
@@ -57,7 +57,7 @@
           />
         </el-form-item>
         <div class="dialog-footer">
-          <el-button @click="is_register = false">转到登录</el-button>
+          <el-button @click="dialog.is_register = false">转到登录</el-button>
           <el-button type="primary" @click="postRegister()">立即注册</el-button>
         </div>
       </el-form>
@@ -92,7 +92,7 @@
           />
         </el-form-item>
         <div class="dialog-footer">
-          <el-button @click="is_register = true">转到注册</el-button>
+          <el-button @click="dialog.is_register = true">转到注册</el-button>
           <el-button type="primary" @click="postLogin()">立即登录</el-button>
         </div>
       </el-form>
@@ -108,7 +108,7 @@ import { get_verification_code, login, register } from "../api/account.js";
 export default {
   name: "LoginDialog",
   props: {
-    is_register: Boolean,
+    dialog: Object,
   },
   data() {
     let validatePass = (rule, value, callback) => {
@@ -126,11 +126,21 @@ export default {
       }
     };
     var validateEmail = (rule, value, callback) => {
-      var regex = /^([0-9A-Za-z\-_.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
+      var regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
       if (!regex.test(value)) {
         callback(new Error("请输入有效的邮箱地址"));
       } else {
         callback();
+      }
+    };
+    let validateLoginName = (rule, value, callback) => {
+      let emailregex =
+        /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      let nameregex = /^[a-zA-Z0-9_]+$/;
+      if (emailregex.test(value) || nameregex.test(value)) {
+        callback();
+      } else {
+        callback(new Error("用户名格式错误"));
       }
     };
     return {
@@ -148,7 +158,7 @@ export default {
             message: "长度在 4 到 30 个字符",
             trigger: "blur",
           },
-          { validator: validateName, trigger: "blur" },
+          { validator: validateLoginName, trigger: "blur" },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -211,7 +221,10 @@ export default {
                 this.$message.success("登录成功！");
                 // 设置本地 session 缓存
                 storage.set("login", this.loginForm.username);
+                this.dialogVisible = false;
+                this.resetForm("loginForm");
                 //TODO 登录之后后续跳转处理
+
               } else {
                 this.$message.error("登录失败：" + response.data.msg);
               }
@@ -267,7 +280,34 @@ export default {
               if (response.data.code === 20000) {
                 //成功
                 this.$message.success("注册成功！");
-                //TODO 注册之后后续处理
+                this.loginForm.username = this.registerForm.username;
+                this.loginForm.password = this.registerForm.username;
+                login({
+                  username: this.loginForm.username,
+                  password: this.loginForm.password,
+                })
+                  .then((response) => {
+                    console.log(response);
+                    if (response.data.code === 20000) {
+                      //成功并保存登录状态
+                      this.$message.success("登录成功！");
+                      // 设置本地 session 缓存
+                      storage.set("login", this.loginForm.username);
+                      this.dialogVisible = false;
+                      this.resetForm("loginForm");
+                      //TODO 登录之后后续跳转处理
+                    } else {
+                      this.$message.error("登录失败：" + response.data.msg);
+                      this.dialog.is_register=false;
+                    }
+                    this.resetForm("registerForm");
+                  })
+                  .catch((error) => {
+                    this.$message.error("请求时出错！");
+                    console.log(error);
+                    this.dialog.is_register=false;
+                    this.resetForm("registerForm");
+                  });
               } else {
                 this.$message.error("注册失败：" + response.data.msg);
               }
