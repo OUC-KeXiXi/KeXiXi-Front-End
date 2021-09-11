@@ -18,6 +18,25 @@ const routes = [
   //   path: "*",
   //   redirect: "/404"
   // }
+  {
+    path: '/UserCenter',
+    name: '/UserCenter',
+    component: () => import('../components/UserCenter/UserCenter.vue'),
+    children: [
+      { path: '/UserMessage', component: () => import('../components/UserCenter/UserMessage.vue') },
+      { path: '/PurchasedCourses', component: () => import('../components/UserCenter/PurchasedCourses.vue') }
+    ]
+  },
+  // {
+  //   path: '/UserMessage',
+  //   name: '/UserMessage',
+  //   component: () => import('../components/UserCenter/UserMessage.vue')
+  // },
+  // {
+  //   path: '/PurchasedCourses',
+  //   name: '/PurchasedCourses',
+  //   component: () => import('../components/UserCenter/PurchasedCourses.vue')
+  // }
 ]
 
 const router = createRouter({
