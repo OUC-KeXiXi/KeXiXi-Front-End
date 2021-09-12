@@ -12,13 +12,13 @@ module.exports = {
     // hotOnly: false, // 热更新
     proxy: {
       "/api": {
-        target: "https://www.easy-mock.com/mock/5bc75b55dc36971c160cad1b/sheets", // 目标代理接口地址
+        target: "https://weparallelines.top", // 目标代理接口地址
         // secure: false,
         changeOrigin: true, // 开启代理，在本地创建一个虚拟服务端
         // ws: true, // 是否启用websockets
-        pathRewrite: {
-          "^/api": "/"
-        }
+        // pathRewrite: {
+        //   "^/api": "/"
+        // }
       }
     },
   },

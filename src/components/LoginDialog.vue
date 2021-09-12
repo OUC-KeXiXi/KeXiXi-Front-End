@@ -7,7 +7,7 @@
       width="30%"
       center
       :close-on-click-modal="false"
-      v-if="is_register"
+      v-if="dialog.is_register"
     >
       <el-form
         :model="registerForm"
@@ -45,7 +45,7 @@
               />
             </el-col>
             <el-col :span="8.5">
-              <el-button>获取验证码</el-button>
+              <el-button @click="getVerificationCode()">获取验证码</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -57,10 +57,8 @@
           />
         </el-form-item>
         <div class="dialog-footer">
-          <el-button @click="is_register = false">转到登录</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
-            >立即注册</el-button
-          >
+          <el-button @click="dialog.is_register = false">转到登录</el-button>
+          <el-button type="primary" @click="postRegister()">立即注册</el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -94,10 +92,8 @@
           />
         </el-form-item>
         <div class="dialog-footer">
-          <el-button @click="is_register = true">转到注册</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
-            >立即登录</el-button
-          >
+          <el-button @click="dialog.is_register = true">转到注册</el-button>
+          <el-button type="primary" @click="postLogin()">立即登录</el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -106,10 +102,13 @@
 
 
 <script>
+import storage from "good-storage";
+import { get_verification_code, login, register } from "../api/account.js";
+
 export default {
   name: "LoginDialog",
   props: {
-    is_register: Boolean,
+    dialog: Object,
   },
   data() {
     let validatePass = (rule, value, callback) => {
@@ -127,15 +126,25 @@ export default {
       }
     };
     var validateEmail = (rule, value, callback) => {
-      var regex = /^([0-9A-Za-z\-_.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
+      var regex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
       if (!regex.test(value)) {
         callback(new Error("请输入有效的邮箱地址"));
       } else {
         callback();
       }
     };
+    let validateLoginName = (rule, value, callback) => {
+      let emailregex =
+        /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      let nameregex = /^[a-zA-Z0-9_]+$/;
+      if (emailregex.test(value) || nameregex.test(value)) {
+        callback();
+      } else {
+        callback(new Error("用户名格式错误"));
+      }
+    };
     return {
-      dialogVisible: true,
+      dialogVisible: false,
       loginForm: {
         username: "",
         password: "",
@@ -149,7 +158,7 @@ export default {
             message: "长度在 4 到 30 个字符",
             trigger: "blur",
           },
-          { validator: validateName, trigger: "blur" },
+          { validator: validateLoginName, trigger: "blur" },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -167,7 +176,7 @@ export default {
         email: "",
         verifycode: "",
         password: "",
-        role: 0,
+        role: "0",
       },
       registerRules: {
         username: [
@@ -195,12 +204,121 @@ export default {
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    openDialog() {
+      this.dialogVisible = true;
+    },
+    postLogin() {
+      this.$refs["loginForm"].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          login({
+            username: this.loginForm.username,
+            password: this.loginForm.password,
+          })
+            .then((response) => {
+              console.log(response);
+              if (response.data.code === 20000) {
+                //成功并保存登录状态
+                this.$message.success("登录成功！");
+                // 设置本地 session 缓存
+                storage.set("login", this.loginForm.username);
+                this.dialogVisible = false;
+                this.resetForm("loginForm");
+                //TODO 登录之后后续跳转处理
+
+              } else {
+                this.$message.error("登录失败：" + response.data.msg);
+              }
+            })
+            .catch((error) => {
+              this.$message.error("请求时出错！");
+              console.log(error);
+            });
         } else {
           console.log("error submit!!");
+          this.$message.error("提交时出错！");
+          return false;
+        }
+      });
+    },
+    getVerificationCode() {
+      this.$refs["registerForm"].validateField("email", (error) => {
+        if (!error) {
+          get_verification_code({
+            email: this.registerForm.email,
+            check: true,
+          })
+            .then((response) => {
+              console.log(response);
+              if (response.data.code === 20000) {
+                this.$message.success("验证码已发布到邮箱，请注意查收！");
+              } else {
+                this.$message.error(response.data.msg);
+              }
+            })
+            .catch((error) => {
+              this.$message.error("获取验证码时出错！");
+              console.log(error);
+            });
+        } else {
+          this.$message.error(error);
+          return false;
+        }
+      });
+    },
+    postRegister() {
+      this.$refs["registerForm"].validate((valid) => {
+        if (valid) {
+          register({
+            username: this.registerForm.username,
+            email: this.registerForm.email,
+            password: this.registerForm.password,
+            verification_code: this.registerForm.verifycode,
+            role: this.registerForm.role,
+          })
+            .then((response) => {
+              console.log(response);
+              if (response.data.code === 20000) {
+                //成功
+                this.$message.success("注册成功！");
+                this.loginForm.username = this.registerForm.username;
+                this.loginForm.password = this.registerForm.username;
+                login({
+                  username: this.loginForm.username,
+                  password: this.loginForm.password,
+                })
+                  .then((response) => {
+                    console.log(response);
+                    if (response.data.code === 20000) {
+                      //成功并保存登录状态
+                      this.$message.success("登录成功！");
+                      // 设置本地 session 缓存
+                      storage.set("login", this.loginForm.username);
+                      this.dialogVisible = false;
+                      this.resetForm("loginForm");
+                      //TODO 登录之后后续跳转处理
+                    } else {
+                      this.$message.error("登录失败：" + response.data.msg);
+                      this.dialog.is_register=false;
+                    }
+                    this.resetForm("registerForm");
+                  })
+                  .catch((error) => {
+                    this.$message.error("请求时出错！");
+                    console.log(error);
+                    this.dialog.is_register=false;
+                    this.resetForm("registerForm");
+                  });
+              } else {
+                this.$message.error("注册失败：" + response.data.msg);
+              }
+            })
+            .catch((error) => {
+              this.$message.error("请求时出错！");
+              console.log(error);
+            });
+        } else {
+          console.log("error submit!!");
+          this.$message.error("提交时出错！");
           return false;
         }
       });
@@ -219,13 +337,12 @@ export default {
   display: flex;
   justify-content: center;
 }
-.dialog-footer>.el-button {
+.dialog-footer > .el-button {
   margin: 0 2.5%;
 }
-.role-header{
+.role-header {
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
 }
-
 </style>
