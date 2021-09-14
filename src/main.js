@@ -5,6 +5,7 @@ import store from './store'
 //引入axios跨域通信
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
 import less from 'less'
 
 //引入Elenent-UI
@@ -12,6 +13,8 @@ import ElementPlus from 'element-plus'
 import '../src/style/element-variables.scss'
 import '../src/style/style.less'
 import {ElIcon} from 'element-plus'
+
+import storage from 'good-storage'
 
 const app = createApp(App);
 

@@ -14,9 +14,36 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import('../views/About.vue')
   },
+  {
+    path: '/sellercenter',
+    name: 'SellerCenter',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/SellerCenter.vue')
+  },
   // {
   //   path: "*",
   //   redirect: "/404"
+  // }
+  {
+    path: '/UserCenter',
+    name: '/UserCenter',
+    component: () => import('../components/UserCenter/UserCenter.vue'),
+    children: [
+      { path: '/UserMessage', component: () => import('../components/UserCenter/UserMessage.vue') },
+      { path: '/PurchasedCourses', component: () => import('../components/UserCenter/PurchasedCourses.vue') }
+    ]
+  },
+  // {
+  //   path: '/UserMessage',
+  //   name: '/UserMessage',
+  //   component: () => import('../components/UserCenter/UserMessage.vue')
+  // },
+  // {
+  //   path: '/PurchasedCourses',
+  //   name: '/PurchasedCourses',
+  //   component: () => import('../components/UserCenter/PurchasedCourses.vue')
   // }
 ]
 

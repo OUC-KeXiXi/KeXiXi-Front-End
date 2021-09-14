@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 // create an axios instance
 const service = axios.create({
 //   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  crossDomain = true,
+  crossDomain: true,
   timeout: 10000 // request timeout
 })
 
