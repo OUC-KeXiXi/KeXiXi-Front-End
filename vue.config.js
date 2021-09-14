@@ -19,7 +19,11 @@ module.exports = {
         // pathRewrite: {
         //   "^/api": "/"
         // }
-      }
+      },
+      "/media": {
+        target: "https://weparallelines.top", // 目标代理接口地址
+        changeOrigin: true, // 开启代理，在本地创建一个虚拟服务端
+      },
     },
   },
 };

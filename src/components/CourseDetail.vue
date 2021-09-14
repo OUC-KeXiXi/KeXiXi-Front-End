@@ -9,30 +9,32 @@
             <p class="header-title">商品详情页</p>
         </el-header>
         
-        <!-- <el-aside>
-
-        </el-aside> -->
-
         <el-main>
             <div class="detail-content">
-            
-            <div class="detail-top">
-                <el-image 
-                    class="detail-img" 
-                    :src="require('../assets/class1.png')"
-                    fit="contain">
-                </el-image>
-                <div class="detail-info">
-                    <p>JAVA高效开发</p>
-                    <p>发布者</p>
-                    <div class="detail-add">
-                        <el-button type="danger" icon="el-icon-plus" circle></el-button>
+                <div class="detail-top">
+                    <el-image 
+                        class="detail-cover" 
+                        :src="detail.cover"
+                        fit="contain">
+                    </el-image>
+                    <div class="detail-info">
+                        <p class="detail-title">{{detail.title}}</p>
+                        <p class="detail-seller">作者：{{detail.seller_name}}</p>
+                        <div class="detail-buy">
+                            <p class="detail-sales">已售：{{detail.sales}}</p>
+                            <p class="detail-price">价格：￥{{detail.price}}</p>
+                            <div class="detail-add">
+                                <el-button v-if="!added" type="danger" icon="el-icon-plus" round @click="cart_add()">添加至购物车</el-button>
+                                <el-button v-else type="success" icon="el-icon-check" round @click="cart_delete()">已在购物车中</el-button>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
-            </div>
-            <div class="detail-bottom">
-                <p>Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向对象编程语言的代表，极好地实现了面向对象理论，允许程序员以优雅的思维方式进行复杂的编程。</p>
-            </div>
+                <hr class="detail-line"/>
+                <div class="detail-bottom">
+                    <p>{{detail.content}}</p>
+                </div>
             </div>
         </el-main>
 
@@ -45,16 +47,111 @@
 </template>
 
 <script>
+import { get_course_detail } from "../api/course.js";
+import { add_course, delete_course, get_my_cart } from "../api/cart.js"
+
+const default_detail = {
+    "course_id": 1,
+    "title": "SpringBoot+Vue3 项目实战，打造企业级在线办公系统",
+    "seller_id": 5,
+    "seller_name": "15563709699",
+    "published": true,
+    "tags": [
+        {
+            "tag_id": 1,
+            "tag_name": "前端"
+        },
+        {
+            "tag_id": 3,
+            "tag_name": "Vue"
+        },
+        {
+            "tag_id": 5,
+            "tag_name": "SpringBoot"
+        }
+    ],
+    "deleted": false,
+    "sales": 0,
+    "snapshot_id": 1,
+    "content": "未来，在线协同办公将成为企业常态化的工作方式。本课程选用市面上少有的，界面美观，功能模块齐全的大型在线办公系统。项目采用了当下最流行的前后端分离架构及技术（ Java、SSM、Vue3.0 ），课程作为全面提升前后端技术水平的不二选择，也很适合作为简历的加分项。",
+    "cover": "/media/20210914203304lg6ZwBrihE.png",
+    "price": "358.0",
+    "create_time": "2021-09-14 20:33:30"
+}
+
 export default {
     data() {
-      return {
-      }
+        this.course_id = this.$route.query.course_id || 1
+        let that = this;
+        get_course_detail(this.course_id).then((res) => {
+            console.log(res)
+            if (res.data.code === 20000) {
+                that.$data.detail = res.data.data
+            } else {
+
+            }
+        }).catch((err) => {
+            alert(err)
+        })
+
+        get_my_cart().then((res) => {
+            console.log(res)
+            if (res.data.code === 20000) {
+                let courses = res.data.data.courses
+                courses.map((val) => {
+                    if (that.course_id === val.toString()) {
+                        that.$data.added = true
+                    }
+                })
+
+            }
+        }).catch((err) => {
+
+        })
+        
+        return {
+            detail: default_detail,
+            added: false
+        }
+    },
+    methods: {
+        cart_add() {
+            add_course(this.course_id).then((res) => {
+                console.log(res)
+                if (res.data.code === 20000) {
+                    this.$data.added = true
+                    this.$message.success("添加成功！");
+                } else {
+                    this.$message.error(res.data.msg);
+                }
+            }).catch((err) => {
+                this.$message.error(err)
+            })
+        },
+        cart_delete() {
+            delete_course(this.course_id).then((res) => {
+                console.log(res)
+                if (res.data.code === 20000) {
+                    this.$data.added = false
+                    this.$message.success("删除成功！");
+                } else {
+                    this.$message.error(res.data.msg);
+                }
+            }).catch((err) => {
+                this.$message.error(err)
+            })
+        }
     }
-  }
+}
 </script>
 
 <style scoped lang="less">
 @import '../style/style.less';
+
+p {
+    margin-block-start: 0.3em;
+    margin-block-end: 0.5em;
+}
 
 .el-container {
     margin: 0;
@@ -84,24 +181,52 @@ export default {
     padding: 1vh 5vw;
     min-height: 81vh;
     background-color: white;
+    // background-color: @secondary-color;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
     .detail-top {
         
         display: flex;
         margin-bottom: 0;
-        .detail-img {
-            height: 20vh;
-            width: 20vh;
+        .detail-cover {
+            height: 50vh;
+            width: 40vw;
         }
         .detail-info {
             display: static;
+            position: relative;
             margin-left: 1vh;
             flex: 2;
-            .detail-add {
-                text-align: right;
+            .detail-title {
+                font-size: x-large;
+            }
+            .detail-seller {
+                color: blue;
+                margin-bottom: 2vh;
+            }
+
+            .detail-buy {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                .detail-sales {
+                    text-align: right;
+                }
+                .detail-price {
+                    text-align: right;
+                    color: red;
+                }
+                .detail-add {
+                    text-align: right;
+                }
             }
         }
+    }
+
+    .detail-line {
+        width: 100%;
+        color: dimgray;
+        margin-top: 2vh;
     }
 
     .detail-bottom {
@@ -115,12 +240,5 @@ export default {
     align-items: center;
     justify-content: center;
 }
-
-.el-aside{
-    width: 20vw;
-    color: red;
-    height: 20vh;
-}
-
 
 </style>
