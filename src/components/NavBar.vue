@@ -53,13 +53,13 @@
 
            <div v-else style="float: right;">
              <el-menu-item index="5" style="float:right;">
-               <el-button type="text" class="btn">
+               <el-button type="text" class="btn" @click="Register">
                  <el-icon style="vertical-align: middle;" :size="18" class="icon"><user /></el-icon>
                  <span style="vertical-align: middle;"> 注册 </span>
                </el-button>
              </el-menu-item>
              <el-menu-item index="6" style="float:right;">
-               <el-button type="text" class="btn">
+               <el-button type="text" class="btn" @click="Login">
                  <el-icon style="vertical-align: middle;" :size="18" class="icon"><user-filled /></el-icon>
                  <span style="vertical-align: middle;"> 登录 </span>
                </el-button>
@@ -78,34 +78,55 @@
     </el-menu>
 
   </el-affix>
+
+  <div v-if="isShow">
+    <LoginDialog  ref="LoginDialog" :dialog="login_dialog"/>
+  </div>
 </template>
 
 <script>
 import "../assets/css/el-menu.css"
 import { UserFilled, User, ShoppingCart, SwitchButton } from '@element-plus/icons'
+import LoginDialog from "../components/LoginDialog.vue";
 
 export default {
   name: "NavBar",
   data() {
     return {
       isLogin: false, // true
+      isShow: false,
       role: 'buyer', // seller
       activeIndex: "/home",
       input2: '',
       logo: require('../assets/img/logo.png'),
-      defaultAvatar: require('../assets/img/avatar_default.png')
+      defaultAvatar: require('../assets/img/avatar_default.png'),
+      login_dialog:{
+        is_register:false,
+      }
     };
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    openDialog(is_register){
+      this.login_dialog.is_register=is_register;
+      this.$refs.LoginDialog.openDialog();
+    },
+    Register() {
+      this.openDialog(true);
+      console.log('注册------------');
+    },
+    Login() {
+      console.log('登录------------');
     }
   },
   components: {
     UserFilled,
     User,
     ShoppingCart,
-    SwitchButton
+    SwitchButton,
+    LoginDialog,
   }
 }
 </script>

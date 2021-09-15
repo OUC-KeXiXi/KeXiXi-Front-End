@@ -5,7 +5,7 @@
     <el-aside width="228px">
       <div class="aside-div">
       <el-scrollbar>
-        <div v-for="item in tabLists">
+        <div v-for="item in tabLists" :key="item">
           <div class="tabItem">
           <span>{{ item }}</span>
           <el-icon :size="14" color="#9c9ba6" class="tabIcon">
@@ -37,14 +37,12 @@
        </template>
      </el-tab-pane>
      <el-tab-pane label="推荐" name="first">
-       <Card></Card>
      </el-tab-pane>
      <el-tab-pane label="最新" name="second">
-       <Card></Card>
      </el-tab-pane>
      <el-tab-pane label="精品" name="third">
-       <Card></Card>
      </el-tab-pane>
+     <Card :activeName='activeName'></Card>
    </el-tabs>
  </div>
   <FixedBottom></FixedBottom>
@@ -83,8 +81,9 @@ export default {
     }
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event)
+    handleClick(tab) {
+      this.activeName = tab.paneName
+      console.log('--------tab-----------',this.activeName)
     },
   },
   components: {

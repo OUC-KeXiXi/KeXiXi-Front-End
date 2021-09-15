@@ -58,3 +58,27 @@ export function change_nickname(data){
     data
   })
 }
+
+//获取推荐课程列表
+export function get_hottest_courses() {
+  return axios({
+    url: '/api/course/get_hottest_courses_list',
+    method: 'get',
+  })
+}
+
+//获取最新课程列表
+export function get_latest_courses_list() {
+  return axios({
+    url: '/api/course/get_latest_courses_list',
+    method: 'get'
+  })
+}
+
+//获取精品课程列表
+export function get_pinned_courses_list() {
+  return axios({
+    url: '/api/course/get_pinned_courses_list',
+    method: 'get'
+  })
+}
