@@ -4,8 +4,8 @@
         <div class="detail">
             <div class="detail-content">
                 <div class="detail-top">
-                    <el-image
-                        class="detail-cover"
+                    <el-image 
+                        class="detail-cover" 
                         :src="detail.cover"
                         fit="contain">
                     </el-image>
@@ -16,8 +16,7 @@
                             <p class="detail-sales">已售：{{detail.sales}}</p>
                             <p class="detail-price">价格：￥{{detail.price}}</p>
                             <div class="detail-add">
-                                <el-button v-if="!added" type="danger" icon="el-icon-plus" round @click="cart_add()">添加至购物车</el-button>
-                                <el-button v-else type="success" icon="el-icon-check" round @click="cart_delete()">已在购物车中</el-button>
+                                <el-button type="info" icon="el-icon-plus" round @click="cart_denied()">快照不可购买</el-button>
                             </div>
                             <div class="detail-cart">
                                 <router-link to="/cart"><el-button type="warning" icon="el-icon-shopping-cart-2" round> 购物车</el-button></router-link>
@@ -37,8 +36,7 @@
 </template>
 
 <script>
-import { get_course_detail } from "../api/course.js";
-import { add_course, delete_course, get_my_cart } from "../api/cart.js"
+import { get_snapshot_detail } from "../api/snapshot.js";
 import FixedBottom from "@/components/FixedBottom";
 import NavBar from "@/components/NavBar";
 
@@ -73,9 +71,9 @@ const default_detail = {
 
 export default {
     data() {
-        this.course_id = this.$route.query.course_id || 1
+        this.course_id = this.$route.query.snapshot_id || 1
         let that = this;
-        get_course_detail(this.course_id).then((res) => {
+        get_snapshot_detail(this.course_id).then((res) => {
             console.log(res)
             if (res.data.code === 20000) {
                 that.$data.detail = res.data.data
@@ -85,54 +83,15 @@ export default {
         }).catch((err) => {
             that.$message.error(err)
         })
-
-        get_my_cart().then((res) => {
-            console.log(res)
-            if (res.data.code === 20000) {
-                let courses = res.data.data.courses
-                courses.map((val) => {
-                    if (that.course_id === val.toString()) {
-                        that.$data.added = true
-                    }
-                })
-
-            }
-        }).catch((err) => {
-
-        })
-
+        
         return {
             detail: default_detail,
-            added: false
         }
     },
     methods: {
-        cart_add() {
-            add_course(this.course_id).then((res) => {
-                console.log(res)
-                if (res.data.code === 20000) {
-                    this.$data.added = true
-                    this.$message.success("添加成功！");
-                } else {
-                    this.$message.error(res.data.msg);
-                }
-            }).catch((err) => {
-                this.$message.error(err)
-            })
+        cart_denied() {
+            this.$message.error("快照不可购买")
         },
-        cart_delete() {
-            delete_course(this.course_id).then((res) => {
-                console.log(res)
-                if (res.data.code === 20000) {
-                    this.$data.added = false
-                    this.$message.success("删除成功！");
-                } else {
-                    this.$message.error(res.data.msg);
-                }
-            }).catch((err) => {
-                this.$message.error(err)
-            })
-        }
     },
     components: {
         NavBar,
@@ -161,7 +120,7 @@ p {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
     .detail-top {
-
+        
         display: flex;
         margin-bottom: 0;
         .detail-cover {

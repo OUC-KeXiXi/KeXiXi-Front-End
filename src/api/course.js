@@ -9,6 +9,7 @@ export function get_course_detail(data){
   })
 }
 
+
 //获取所有课程标签
 export function get_all_tags() {
   return axios({
