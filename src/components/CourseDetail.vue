@@ -4,8 +4,8 @@
         <div class="detail">
             <div class="detail-content">
                 <div class="detail-top">
-                    <el-image 
-                        class="detail-cover" 
+                    <el-image
+                        class="detail-cover"
                         :src="detail.cover"
                         fit="contain">
                     </el-image>
@@ -100,7 +100,7 @@ export default {
         }).catch((err) => {
 
         })
-        
+
         return {
             detail: default_detail,
             added: false
@@ -161,7 +161,7 @@ p {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
     .detail-top {
-        
+
         display: flex;
         margin-bottom: 0;
         .detail-cover {

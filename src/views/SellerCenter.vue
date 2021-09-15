@@ -22,10 +22,6 @@
             <i class="el-icon-s-goods"></i>
             <template #title>商品管理</template>
           </el-menu-item>
-          <el-menu-item index="3">
-            <i class="el-icon-s-order"></i>
-            <template #title>订单管理</template>
-          </el-menu-item>
         </el-menu>
       </div>
     </el-aside>
@@ -105,6 +101,9 @@ export default {
 }
 .el-menu-item.is-active {
   background-color: @primary-color;
+}
+.el-menu-item.is-active:hover{
+  background-color: @primary-color !important;
 }
 
 .user-name {

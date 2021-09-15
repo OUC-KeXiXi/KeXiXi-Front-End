@@ -1,9 +1,9 @@
 <template>
   <div class="goodslist">
-    <el-card class="publish-card">
+    <div class="publish-button">
       <el-button type="primary" @click="toPublishNew()">发布商品</el-button>
-      <p class="publish-text">点击发布新的课程商品\(￣︶￣*\)</p>
-    </el-card>
+    </div>
+    <p class="publish-text">点击发布新的课程商品\(￣︶￣*\)</p>
     <el-card class="goods-card">ddd</el-card>
     <el-card class="goods-card">ddd</el-card>
     <el-pagination
@@ -30,7 +30,13 @@ export default {
   },
   data() {
     return {
-      selectedCourse:{},
+      selectedCourse:{
+        title:"",
+        content:"",
+        cover:"",
+        price:0.01,
+        tags:[],
+      },
       list: [],
       listLength: 100,
       currentPage:1,
@@ -50,7 +56,7 @@ export default {
         title:"",
         content:"",
         cover:"",
-        price:"",
+        price:0.01,
         tags:[],
       };
       this.$refs.PublishDialog.openDialog();
@@ -61,7 +67,7 @@ export default {
 
 <style scoped lang="less">
 @import "../../style/style.less";
-.publish-card{
+.publish-button{
   margin-top: 20px;
   display: flex;
   justify-content: center;
@@ -71,6 +77,9 @@ export default {
 .publish-text{
   color: gray;
   margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 .list-pagination{

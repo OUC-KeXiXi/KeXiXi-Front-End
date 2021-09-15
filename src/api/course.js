@@ -9,11 +9,11 @@ export function get_course_detail(data){
   })
 }
 
-//获取快照详情
-export function get_snapshot_detail(data){
-    return axios({
-      url: '/api/course/get_snapshot_detail?snapshot_id=' + data,
-      method: 'get',
-      headers: {'Content-Type': 'application/json'},
-    })
+
+//获取所有课程标签
+export function get_all_tags() {
+  return axios({
+    url: '/api/course/get_all_tags',
+    method: 'get',
+  })
 }
