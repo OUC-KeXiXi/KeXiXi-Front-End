@@ -1,0 +1,86 @@
+/*导航栏整体*/
+.el-menu-demo {
+  border:none;
+  height: 64px;
+  box-shadow: 0 0 0 1px hsla(240,0%,100%,.2) inset,
+  0 .5em 1em rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid #f1eeee;
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+/* 选中时下划线进行隐藏 */
+.el-menu-item.is-active {
+  border-bottom: none!important;
+}
+/*悬停效果*/
+.el-menu-item:hover{
+  background-color: rgba(0,0,0,0) !important;
+}
+/* 整体的下划线进行隐藏 */
+.el-menu.el-menu--horizontal{
+  border-bottom: none;
+}
+/* 点击出来的下划线动效残留进行隐藏 */
+.el-menu--horizontal>.el-menu-item{
+  border-bottom: none;
+}
+
+
+/*搜索框样式*/
+/*input背景色*/
+.el-input {
+  width: 100%;
+}
+.search-input .el-input__inner {
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+}
+.search-input .el-input__inner {
+  background-color: #dcdcdc;
+  border-color: #dcdcdc;
+
+}.search-input .el-input__inner:hover {
+   background-color: #d2d2d2;
+   border-color: #d2d2d2;
+ }
+/*placeholder*/
+.search-input .el-input__inner::placeholder {
+  color: #8c8c8c;
+}
+/*搜索按钮*/
+.el-input-group__append, .el-input-group__prepend{
+  background-color: #303030;
+  border-color: #303030;
+  color: #ffffff;
+}
+
+
+/*这里是隐藏滚动条的方法*/
+::-webkit-scrollbar {
+    width: 0 !important;
+}
+::-webkit-scrollbar {
+    width: 0 !important;height: 0;
+}
+
+
+/*弹出框*/
+.el-menu--collapse .el-menu .el-submenu, .el-menu--popup{
+    min-width: 100px!important;
+    min-height: 75px!important;
+    margin: 0;
+    padding: 0;
+}
+.btn1 {
+    color: #757575;
+    padding: 5px;
+}
+.btn1:hover {
+    background-color: #e7e6e6;
+    color: #757575;
+    padding: 5px;
+}
+.icon1 {
+    color: #757575;
+}

@@ -12,6 +12,7 @@ import less from 'less'
 import ElementPlus from 'element-plus'
 import '../src/style/element-variables.scss'
 import '../src/style/style.less'
+import {ElIcon} from 'element-plus'
 
 import storage from 'good-storage'
 
@@ -22,6 +23,7 @@ app.use(router); //使用Vue-router
 app.use(ElementPlus); //使用Elenent-UI
 app.use(VueAxios, axios);
 app.use(less);
+app.use(ElIcon);
 
 // 设置跨域问题
 axios.defaults.withCredentials = true;

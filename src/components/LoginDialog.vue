@@ -4,10 +4,10 @@
     <el-dialog
       v-model="dialogVisible"
       title="注册"
-      width="30%"
+      :width="dialogWidth"
       center
       :close-on-click-modal="false"
-      v-if="dialog.is_register"
+      v-if="is_register"
     >
       <el-form
         :model="registerForm"
@@ -38,7 +38,7 @@
         </el-form-item>
         <el-form-item label="邮箱验证码" prop="verifycode">
           <el-row justify="space-between">
-            <el-col :span="14">
+            <el-col :span="15">
               <el-input
                 v-model="registerForm.verifycode"
                 prefix-icon="el-icon-chat-square"
@@ -57,7 +57,7 @@
           />
         </el-form-item>
         <div class="dialog-footer">
-          <el-button @click="dialog.is_register = false">转到登录</el-button>
+          <el-button @click="changeDialogState(false)">转到登录</el-button>
           <el-button type="primary" @click="postRegister()">立即注册</el-button>
         </div>
       </el-form>
@@ -67,7 +67,7 @@
     <el-dialog
       v-model="dialogVisible"
       title="登录"
-      width="30%"
+      :width="dialogWidth"
       center
       :close-on-click-modal="false"
       v-else
@@ -92,7 +92,7 @@
           />
         </el-form-item>
         <div class="dialog-footer">
-          <el-button @click="dialog.is_register = true">转到注册</el-button>
+          <el-button @click="changeDialogState(true)">转到注册</el-button>
           <el-button type="primary" @click="postLogin()">立即登录</el-button>
         </div>
       </el-form>
@@ -108,7 +108,7 @@ import { get_verification_code, login, register } from "../api/account.js";
 export default {
   name: "LoginDialog",
   props: {
-    dialog: Object,
+    is_register: Boolean,
   },
   data() {
     let validatePass = (rule, value, callback) => {
@@ -145,6 +145,7 @@ export default {
     };
     return {
       dialogVisible: false,
+      dialogWidth:"35%",
       loginForm: {
         username: "",
         password: "",
@@ -204,8 +205,12 @@ export default {
     };
   },
   methods: {
+    //父组件调用子组件函数，打开对话框
     openDialog() {
       this.dialogVisible = true;
+    },
+    changeDialogState(register){
+      this.$emit("changeState",register);
     },
     postLogin() {
       this.$refs["loginForm"].validate((valid) => {
@@ -250,7 +255,7 @@ export default {
             .then((response) => {
               console.log(response);
               if (response.data.code === 20000) {
-                this.$message.success("验证码已发布到邮箱，请注意查收！");
+                this.$message.success("验证码已发送到邮箱，请注意查收！");
               } else {
                 this.$message.error(response.data.msg);
               }
@@ -281,7 +286,7 @@ export default {
                 //成功
                 this.$message.success("注册成功！");
                 this.loginForm.username = this.registerForm.username;
-                this.loginForm.password = this.registerForm.username;
+                this.loginForm.password = this.registerForm.password;
                 login({
                   username: this.loginForm.username,
                   password: this.loginForm.password,
@@ -298,14 +303,14 @@ export default {
                       //TODO 登录之后后续跳转处理
                     } else {
                       this.$message.error("登录失败：" + response.data.msg);
-                      this.dialog.is_register=false;
+                      this.changeDialogState(false);
                     }
                     this.resetForm("registerForm");
                   })
                   .catch((error) => {
                     this.$message.error("请求时出错！");
                     console.log(error);
-                    this.dialog.is_register=false;
+                    this.changeDialogState(false);
                     this.resetForm("registerForm");
                   });
               } else {
