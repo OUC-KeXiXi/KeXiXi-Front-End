@@ -3,7 +3,7 @@
         <el-header>
             <el-image
                 class="header-avatar"
-                :src="require('../assets/logo.jpg')"
+                :src="require('../assets/img/logo.png')"
                 fit="contain">
             </el-image>
             <p class="header-title">商品详情页</p>
