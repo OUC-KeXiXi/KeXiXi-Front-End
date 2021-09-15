@@ -3,6 +3,7 @@
 
 
 <template>
+  <Nav/>
   <div class="about">
     <div class="router">
       <router-link to="/sellercenter">卖家中心</router-link>
@@ -11,25 +12,27 @@
     <el-button type="primary" @click="openDialog(true)">注册</el-button>
     <el-button type="primary" @click="getStatusTest()">获取登录状态</el-button>
     <el-button type="primary" @click="logout()">注销</el-button>
-    <LoginDialog ref="LoginDialog" :dialog="dialog" />
+    <LoginDialog @changeState="changeState" ref="LoginDialog" :is_register="is_register" />
   </div>
+  <Bottom/>
 </template>
 
 <script>
 import LoginDialog from "../components/LoginDialog.vue";
 import storage from "good-storage";
 import { get_status,logout } from "../api/account.js";
+import Nav from "../components/NavBar.vue"
+import Bottom from "../components/FixedBottom.vue"
 
 export default {
   name: "About",
   components: {
     LoginDialog,
+    Nav,Bottom
   },
   data() {
     return {
-      dialog: {
-        is_register: false,
-      }
+      is_register: false,
     };
   },
   methods: {
@@ -66,8 +69,11 @@ export default {
       })
     },
     openDialog(register) {
-      this.dialog.is_register = register;
+      this.is_register = register;
       this.$refs.LoginDialog.openDialog();
+    },
+    changeState(register){
+      this.is_register=register;
     },
   },
 };

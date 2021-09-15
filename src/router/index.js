@@ -45,6 +45,16 @@ const routes = [
   //   name: '/PurchasedCourses',
   //   component: () => import('../components/UserCenter/PurchasedCourses.vue')
   // }
+  {
+    path: '/CourseDetail',
+    name: '/CourseDetail',
+    component: () => import('../components/CourseDetail.vue'),
+  },
+  {
+    path: '/SnapshotDetail',
+    name: '/SnapshotDetail',
+    component: () => import('../components/SnapshotDetail.vue'),
+  },
 ]
 
 const router = createRouter({

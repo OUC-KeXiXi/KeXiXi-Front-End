@@ -1,10 +1,13 @@
 <template>
-  <el-container class="sellercenter">
+<Nav/>
+<div class="sellercenter">
+  <el-container>
     <el-aside>
       <div class="aside">
         <div class="avatar">
-          <el-avatar :size="250" fit="contain" :src="avatarUrl"/>
+          <el-avatar :size="250" fit="contain" :src="avatarUrl" />
         </div>
+        <div class="user-name">{{displayName}}</div>
         <el-menu
           default-active="1"
           class="el-menu-vertical-demo"
@@ -19,45 +22,66 @@
             <i class="el-icon-s-goods"></i>
             <template #title>商品管理</template>
           </el-menu-item>
-          <el-menu-item index="3">
-            <i class="el-icon-s-order"></i>
-            <template #title>订单管理</template>
-          </el-menu-item>
         </el-menu>
       </div>
     </el-aside>
     <el-main>
       <div class="main">
         <div class="profile" v-if="currentIndex === '1'">
-          aaa
+          <Profile/>
         </div>
         <div class="goods-manager" v-if="currentIndex === '2'">
-          bbb
+          <Goods/>
         </div>
-        <div class="order-manager" v-if="currentIndex === '3'">
-          ccc
-        </div>
+        <div class="order-manager" v-if="currentIndex === '3'">ccc</div>
       </div>
     </el-main>
   </el-container>
+</div>
+<Bottom/>
 </template>
 
 
 <script>
-import storage from "good-storage";
+import { get_storage_user_data } from '../api/account.js';
+import Profile from "../components/SellerCenter/PersonalProfile.vue"
+import Goods from "../components/SellerCenter/GoodsManager.vue"
+import Nav from "../components/NavBar.vue"
+import Bottom from "../components/FixedBottom.vue"
 
 export default {
   name: "SellerCenter",
-  props: {},
+  components:{
+    Profile,
+    Goods,
+    Nav,
+    Bottom,
+  },
+  props: {
+    role: String,
+  },
   data() {
     return {
       avatarUrl: "",
+      displayName:" ",
       currentIndex: "1",
+      infoloaded:false,
     };
+  },
+  created(){
+    this.getUserInfo();
   },
   methods: {
     handleSelect(key) {
       this.currentIndex = key;
+    },
+    getUserInfo(){
+      get_storage_user_data().then((userdata)=>{
+        this.displayName=userdata.nickname;
+        this.avatarUrl=userdata.avatar;
+      }).catch((error)=>{
+        this.$message.error(error);
+      })
     },
   },
 };
@@ -66,13 +90,25 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 @import "../style/style.less";
-
+.sellercenter{
+  padding: 30px 0;
+  height: 90%;
+}
 .avatar {
   display: flex;
   justify-content: center;
   padding: 8%;
 }
-.el-menu-item.is-active{
+.el-menu-item.is-active {
   background-color: @primary-color;
+}
+.el-menu-item.is-active:hover{
+  background-color: @primary-color !important;
+}
+
+.user-name {
+  font-size: 28px;
+  text-align: center;
+  padding: 0 0 6%;
 }
 </style>
