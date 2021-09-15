@@ -1,19 +1,19 @@
 <template>
     <el-container>
         <el-header>
-            <el-image 
-                class="header-avatar" 
-                :src="require('../assets/logo.png')"
+            <el-image
+                class="header-avatar"
+                :src="require('../assets/logo.jpg')"
                 fit="contain">
             </el-image>
             <p class="header-title">商品详情页</p>
         </el-header>
-        
+
         <el-main>
             <div class="detail-content">
                 <div class="detail-top">
-                    <el-image 
-                        class="detail-cover" 
+                    <el-image
+                        class="detail-cover"
                         :src="detail.cover"
                         fit="contain">
                     </el-image>
@@ -28,7 +28,7 @@
                                 <el-button v-else type="success" icon="el-icon-check" round @click="cart_delete()">已在购物车中</el-button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <hr class="detail-line"/>
@@ -108,7 +108,7 @@ export default {
         }).catch((err) => {
 
         })
-        
+
         return {
             detail: default_detail,
             added: false
@@ -185,7 +185,7 @@ p {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
     .detail-top {
-        
+
         display: flex;
         margin-bottom: 0;
         .detail-cover {

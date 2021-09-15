@@ -8,3 +8,11 @@ export function get_course_detail(data){
     headers: {'Content-Type': 'application/json'},
   })
 }
+
+//获取所有课程标签
+export function get_all_tags() {
+  return axios({
+    url: '/api/course/get_all_tags',
+    method: 'get',
+  })
+}
