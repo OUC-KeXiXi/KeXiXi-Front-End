@@ -127,6 +127,7 @@ export default {
         }
         else {
           this.$message.error('注销失败：'+response.data.msg);
+          storage.clear();
         }
       }).catch((error)=>{
         this.$message.error('请求时出错！');
