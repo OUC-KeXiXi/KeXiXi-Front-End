@@ -77,13 +77,14 @@
          </div>
     </el-menu>
   </el-affix>
-  <LoginDialog @changeState="changeState" ref="LoginDialog" :is_register="is_register" />
+  <LoginDialog @changeState="changeState" @onLogin="onLogin" ref="LoginDialog" :is_register="is_register" />
 </template>
 
 <script>
 import "../assets/css/el-menu.css"
 import { UserFilled, User, ShoppingCart, SwitchButton } from '@element-plus/icons'
 import LoginDialog from "../components/LoginDialog.vue";
+import {get_status} from "../api/account.js"
 
 export default {
   name: "NavBar",
@@ -110,6 +111,20 @@ export default {
     changeState(register){
       this.is_register=register;
     },
+    onLogin(){
+      get_status().then((response)=>{
+        console.log(response);
+        if(response.data.code===20000){
+          //TODO 判断
+        }
+        else{
+          //TODO 请求到了但未成功
+        }
+      }).catch((error) => {
+        this.$message.error("请求时出错！");
+        console.log(error);
+      });
+    }
   },
   components: {
     UserFilled,

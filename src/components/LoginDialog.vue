@@ -228,7 +228,8 @@ export default {
                 storage.set("login", this.loginForm.username);
                 this.dialogVisible = false;
                 this.resetForm("loginForm");
-                //TODO 登录之后后续跳转处理
+                //给父组件返回信号
+                this.$emit("onLogin");
 
               } else {
                 this.$message.error("登录失败：" + response.data.msg);
