@@ -106,6 +106,15 @@ export default {
 .name {
   color: #545C63;
   font-size: 14px;
+  display: inline-block;
+  height: 46px;
+  line-height: 1.5rem;
+  overflow: hidden;  /** 隐藏超出的内容 **/
+  word-break: break-all;
+  text-overflow: ellipsis; /** 多行 **/
+  display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+  -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+  -webkit-line-clamp: 2; /** 显示的行数 **/
 }
 .image {
   width: 270px;
