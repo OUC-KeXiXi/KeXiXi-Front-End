@@ -53,13 +53,13 @@
 
            <div v-else style="float: right;">
              <el-menu-item index="5" style="float:right;">
-               <el-button type="text" class="btn" @click="Register">
+               <el-button type="text" class="btn" @click="openDialog(true)">
                  <el-icon style="vertical-align: middle;" :size="18" class="icon"><user /></el-icon>
                  <span style="vertical-align: middle;"> 注册 </span>
                </el-button>
              </el-menu-item>
              <el-menu-item index="6" style="float:right;">
-               <el-button type="text" class="btn" @click="Login">
+               <el-button type="text" class="btn" @click="openDialog(false)">
                  <el-icon style="vertical-align: middle;" :size="18" class="icon"><user-filled /></el-icon>
                  <span style="vertical-align: middle;"> 登录 </span>
                </el-button>
@@ -76,12 +76,8 @@
            </div>
          </div>
     </el-menu>
-
   </el-affix>
-
-  <div v-if="isShow">
-    <LoginDialog  ref="LoginDialog" :dialog="login_dialog"/>
-  </div>
+  <LoginDialog @changeState="changeState" ref="LoginDialog" :is_register="is_register" />
 </template>
 
 <script>
@@ -93,6 +89,7 @@ export default {
   name: "NavBar",
   data() {
     return {
+      is_register: false,
       isLogin: false, // true
       isShow: false,
       role: 'buyer', // seller
@@ -100,26 +97,19 @@ export default {
       input2: '',
       logo: require('../assets/img/logo.png'),
       defaultAvatar: require('../assets/img/avatar_default.png'),
-      login_dialog:{
-        is_register:false,
-      }
     };
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-    openDialog(is_register){
-      this.login_dialog.is_register=is_register;
+    openDialog(register) {
+      this.is_register = register;
       this.$refs.LoginDialog.openDialog();
     },
-    Register() {
-      this.openDialog(true);
-      console.log('注册------------');
+    changeState(register){
+      this.is_register=register;
     },
-    Login() {
-      console.log('登录------------');
-    }
   },
   components: {
     UserFilled,
