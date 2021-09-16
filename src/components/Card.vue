@@ -2,7 +2,7 @@
   <el-row>
     <el-col
         :span="6"
-        v-for="item in cardlists"
+        v-for="item in cardlists.slice(0, 8)"
         :key="item.id"
         :offset="index > 0 ? 8 : 0"
     >
