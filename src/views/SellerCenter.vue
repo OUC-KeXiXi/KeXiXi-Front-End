@@ -91,7 +91,6 @@ export default {
 @import "../style/style.less";
 .sellercenter{
   padding: 30px 0;
-  height: 90%;
 }
 .avatar {
   display: flex;
