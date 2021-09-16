@@ -107,7 +107,11 @@ export default {
   },
   methods: {
     gotoCenter() {
-      router.push('/sellercenter')
+      if(this.role == 0) {
+        router.push('/UserCenter')
+      }else {
+        router.push('/sellercenter')
+      }
     },
     gotoHome() {
       router.push('/')

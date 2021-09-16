@@ -2,7 +2,7 @@
     <div class="main">
         <el-table
         :data="tableData"
-        style="width: 100% height:100%"
+        style="width: 100%; height:100%;"
         :default-sort = "{prop: 'order_id', order: 'descending'}"
         @row-click="routerLink">
             <el-table-column
