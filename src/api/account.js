@@ -59,6 +59,38 @@ export function change_nickname(data) {
   })
 }
 
+//获取全部标签
+export function get_all_tags() {
+  return axios({
+    url: '/api/course/get_all_tags',
+    method: 'get',
+  })
+}
+
+//获取推荐课程列表
+export function get_hottest_courses() {
+  return axios({
+    url: '/api/course/get_hottest_courses_list',
+    method: 'get',
+  })
+}
+
+//获取最新课程列表
+export function get_latest_courses_list() {
+  return axios({
+    url: '/api/course/get_latest_courses_list',
+    method: 'get'
+  })
+}
+
+//获取精品课程列表
+export function get_pinned_courses_list() {
+  return axios({
+    url: '/api/course/get_pinned_courses_list',
+    method: 'get'
+  })
+}
+
 //修改头像（要求登录）
 export function change_avatar(data) {
   return axios({
@@ -97,6 +129,7 @@ export function get_storage_user_data() {
               role: response.data.data.role,
             }
             if (typeof user_data.nickname == "undefined" || user_data.nickname === "") user_data.nickname = user_data.username;
+
             storage.set("user_data", user_data);
             resolve(user_data);
           }

@@ -2,17 +2,17 @@
   <el-row>
     <el-col
         :span="6"
-        v-for="item in images"
+        v-for="item in cardlists.slice(0, 8)"
         :key="item.id"
         :offset="index > 0 ? 8 : 0"
     >
       <el-card :body-style="{ padding: '0px' }">
         <el-image
-            :src="item.url"
+            :src="'https://weparallelines.top'+item.cover"
             class="image"
         />
         <div style="padding: 14px;">
-          <span class="name">{{item.name}}</span>
+          <span class="name">{{item.title}}</span>
           <div class="bottom">
             <p class="price">¥{{item.price}}</p>
           </div>
@@ -23,64 +23,49 @@
 </template>
 
 <script>
+import {get_hottest_courses, get_latest_courses_list, get_pinned_courses_list} from "../api/account";
+
 export default {
   name: "Card",
   data() {
     return {
-      images: [
-        {
-          id: 1,
-          name: 'Vue.js源码全方位深入解析，快人一步进名企',
-          price: '134.00',
-          url: require("../assets/img/1.jpg")
-        },
-        {
-          id: 2,
-          name: '晋级TypeScript高手，成为抢手的前端开发人才',
-          price: '499.00',
-          url: require("../assets/img/2.jpg")
-        },
-        {
-          id: 3,
-          name: 'React+TypeScript 最佳实践\n' +
-              '仿 Jira 企业级项目',
-          price: '388.00',
-          url: require("../assets/img/3.jpg")
-        },
-        {
-          id: 4,
-          name: 'Spring Boot + Vue3 前后端分离\n' +
-              '实战wiki知识库系统',
-          price: '108.00',
-          url: require("../assets/img/4.jpg")
-        },
-        {
-          id: 5,
-          name: 'Docker 系统性入门+进阶实践（2021最新版）',
-          price: '699.00',
-          url: require("../assets/img/1.jpg")
-        },
-        {
-          id: 6,
-          name: 'Docker 系统性入门+进阶实践（2021最新版）',
-          price: '699.00',
-          url: require("../assets/img/5.jpg")
-        },
-        {
-          id: 7,
-          name: 'Docker 系统性入门+进阶实践（2021最新版）',
-          price: '699.00',
-          url: require("../assets/img/3.jpg")
-        },
-        {
-          id: 8,
-          name: 'Docker 系统性入门+进阶实践（2021最新版）',
-          price: '699.00',
-          url: require("../assets/img/2.jpg")
-        }
-      ]
+      cardlists: []
     }
   },
+  props: {
+    'activeName': String
+  },
+  created() {
+    get_hottest_courses().then((res)=>{
+      this.cardlists = res.data.data.courses;
+      console.log('--------初次加载111-----------',this.cardlists);
+    })
+  },
+  updated() {
+    this.getList();
+  },
+  methods: {
+    getList(){
+      if(this.activeName == 'first') {
+        get_hottest_courses().then((res)=>{
+          this.cardlists = res.data.data.courses;
+          console.log('--------111-----------',this.cardlists);
+        })
+      }
+      if(this.activeName == 'second') {
+        get_latest_courses_list().then((res)=>{
+          this.cardlists = res.data.data.courses;
+          console.log('--------222-----------',this.cardlists);
+        })
+      }
+      if(this.activeName == 'third') {
+        get_pinned_courses_list().then((res=>{
+          this.cardlists = res.data.data.courses;
+          console.log('--------333-----------',this.cardlists);
+        }))
+      }
+    }
+  }
 }
 </script>
 
@@ -121,6 +106,15 @@ export default {
 .name {
   color: #545C63;
   font-size: 14px;
+  display: inline-block;
+  height: 46px;
+  line-height: 1.5rem;
+  overflow: hidden;  /** 隐藏超出的内容 **/
+  word-break: break-all;
+  text-overflow: ellipsis; /** 多行 **/
+  display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+  -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+  -webkit-line-clamp: 2; /** 显示的行数 **/
 }
 .image {
   width: 270px;
