@@ -6,7 +6,7 @@
         :key="item.id"
         :offset="index > 0 ? 8 : 0"
     >
-      <el-card :body-style="{ padding: '0px' }">
+      <el-card :body-style="{ padding: '0px' }" @click="gotoCourseDetail(item.course_id)">
         <el-image
             :src="'https://weparallelines.top'+item.cover"
             class="image"
@@ -24,6 +24,7 @@
 
 <script>
 import {get_hottest_courses, get_latest_courses_list, get_pinned_courses_list} from "../api/account";
+import router from "../router";
 
 export default {
   name: "Card",
@@ -45,6 +46,13 @@ export default {
     this.getList();
   },
   methods: {
+    gotoCourseDetail(event) {
+      console.log("点击了1111111111111111111111",event);
+      router.push({
+        path: '/CourseDetail',
+        query: {course_id: event}
+      })
+    },
     getList(){
       if(this.activeName == 'first') {
         get_hottest_courses().then((res)=>{
