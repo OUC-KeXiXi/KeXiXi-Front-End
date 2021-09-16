@@ -55,6 +55,21 @@ const routes = [
     name: '/SnapshotDetail',
     component: () => import('../components/SnapshotDetail.vue'),
   },
+    {
+    path: '/ShoppingCart',
+    name: '/ShoppingCart',
+    component: () => import('../views/ShoppingCart.vue'),
+  },
+  {
+    path: '/OrderComfirm',
+    name: '/OrderComfirm',
+    component: () => import('../views/OrderComfirm.vue'),
+  },
+  {
+    path: '/OrderDetail',
+    name: '/OrderDetail',
+    component: () => import('../views/OrderDetail.vue'),
+  },
 ]
 
 const router = createRouter({
