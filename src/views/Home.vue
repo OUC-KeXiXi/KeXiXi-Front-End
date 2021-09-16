@@ -1,7 +1,7 @@
 <template>
   <NavBar></NavBar>
   <div class="box">
-  <el-container>
+  <el-container class="container">
     <el-aside width="228px">
       <div class="aside-div">
       <el-scrollbar>
@@ -50,6 +50,7 @@
 
 <script>
 // @ is an alias to /src
+import "../assets/css/home.css";
 import NavBar from "../components/NavBar";
 import Card from "../components/Card";
 import { CaretRight } from '@element-plus/icons'
@@ -113,7 +114,7 @@ export default {
   background-image: linear-gradient(#deedeb, #f0f6f6, #fafcfc, #ffffff);
   padding-top: 15px;
 }
-.el-container {
+.container {
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -148,44 +149,5 @@ export default {
 }
 .tabItem:hover {
   background-color: rgba(156,152,152,0.2);
-}
-/*轮播图*/
-.el-carousel {
-  width: 940px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-.el-carousel__item .el-image {
-   width: 100%;
-   height: 100%;
- }
-/*标签页*/
-.foot-div {
-  box-shadow:inset 2px 2px 5px #ebeef2;
-  margin-top: 30px;
-  padding-top: 30px;
-  background-color: #f5f7fa;
-}
-.el-tabs {
-  width: 92%;
-  margin: 0 auto;
-}
-.el-tabs__active-bar {
-  background-color: #e55f5f;
-}
-.el-tabs__item:hover {
-  color: #E02020;
-}
-.el-tabs__item.is-active {
-  color: #1c1f21;
-  font-weight: bold;
-}
-.el-tabs {
-  border: none;
-}
-.deleteBorder .el-tabs__nav-wrap::after{
-  height: 0;
 }
 </style>
