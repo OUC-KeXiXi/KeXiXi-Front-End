@@ -1,12 +1,12 @@
 <template>
   <div class="goodsmanager">
     <el-tabs class="tab" v-model="activeName" type="card" @tab-click="handleSwitchTab">
-      <el-tab-pane label="已发布商品" name="first">
+      <el-tab-pane label="已上架商品" name="first">
         <el-card class="tab-card">
           <GoodsList :published="true"/>
         </el-card>
       </el-tab-pane>
-      <el-tab-pane label="商品草稿箱" name="second">
+      <el-tab-pane label="未上架商品" name="second">
         <el-card class="tab-card">
           <GoodsList :published="false"/>
         </el-card>
