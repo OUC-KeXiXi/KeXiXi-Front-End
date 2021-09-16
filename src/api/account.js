@@ -122,6 +122,7 @@ export function get_storage_user_data() {
               role: response.data.data.role,
             }
             if (typeof user_data.nickname == "undefined" || user_data.nickname === "") user_data.nickname = user_data.username;
+
             storage.set("user_data", user_data);
             resolve(user_data);
           }

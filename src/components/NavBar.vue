@@ -8,8 +8,8 @@
               @select="handleSelect">
 
          <div style="width: 25%;">
-           <el-menu-item index="1" route="home">
-             <el-image :src="logo" class="logo">
+           <el-menu-item index="1">
+             <el-image :src="logo" class="logo" @click="gotoHome">
              </el-image>
            </el-menu-item>
          </div>
@@ -34,7 +34,7 @@
                  <el-avatar :size="40" :src="defaultAvatar" fit="contain"></el-avatar>
                </template>
                <el-menu-item index="3-1">
-                 <el-button type="text" class="btn1">
+                 <el-button type="text" class="btn1" @click="gotoCenter">
                    <el-icon style="vertical-align: middle;" :size="18" class="icon1"><user /></el-icon>
                    <span style="vertical-align: middle;"> 个人中心 </span>
                  </el-button>
@@ -47,7 +47,7 @@
                </el-menu-item>
              </el-sub-menu>
              <el-menu-item index="4" style="float:right;">
-               <el-button type="text" class="btn">个人中心</el-button>
+               <el-button type="text" class="btn"  @click="gotoCenter">个人中心</el-button>
              </el-menu-item>
            </div>
 
@@ -67,7 +67,7 @@
            </div>
 
            <div style="float: right;">
-             <el-menu-item index="7" v-if="role != 1" style="float: right;">
+             <el-menu-item index="7" v-if="role != 1" style="float: right;" >
                <el-button type="text" class="btn">
                  <el-icon style="vertical-align: middle;" :size="18" class="icon"><shopping-cart /></el-icon>
                  <span style="vertical-align: middle;" > 购物车 </span>
@@ -84,8 +84,9 @@
 import "../assets/css/el-menu.css"
 import { UserFilled, User, ShoppingCart, SwitchButton } from '@element-plus/icons'
 import LoginDialog from "../components/LoginDialog.vue";
-import {get_status, logout} from "../api/account.js"
+import {get_status, logout,get_storage_user_data} from "../api/account.js"
 import storage from "good-storage";
+import router from "../router/index.js";
 
 export default {
   name: "NavBar",
@@ -105,6 +106,12 @@ export default {
     this.checkLogin()
   },
   methods: {
+    gotoCenter() {
+      router.push('/sellercenter')
+    },
+    gotoHome() {
+      router.push('/')
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -135,23 +142,32 @@ export default {
     },
 
     checkLogin() {
-      get_status().then((response)=>{
-        // console.log(response);
-        if(response.data.code===20000){
-          //TODO 判断
-          console.log('```````````数据ALL``````````````',response.data.data);
-          this.defaultAvatar = 'https://weparallelines.top'+ response.data.data.avatar;
-          this.role = response.data.data.role;
-          this.isLogin = response.data.data.login;
-          console.log('`````````````头像````````````',this.defaultAvatar);
+      get_storage_user_data().then((res=>{
+        console.log('========userdata===========', res);
+        if(res.username == '' && res.email == '') {
+          get_status().then((response)=>{
+            // console.log(response);
+            if(response.data.code===20000){
+              //TODO 判断
+              console.log('```````````数据ALL``````````````',response.data.data);
+              this.defaultAvatar = 'https://weparallelines.top'+ response.data.data.avatar;
+              this.role = response.data.data.role;
+              this.isLogin = response.data.data.login;
+              console.log('`````````````头像````````````',this.defaultAvatar);
+            }
+            else{
+              //TODO 请求到了但未成功
+            }
+          }).catch((error) => {
+            this.$message.error("请求时出错！");
+            console.log(error);
+          });
+        }else {
+          this.defaultAvatar = res.avatar;
+          this.role = res.role;
+          this.isLogin = true;  //这里需要待定
         }
-        else{
-          //TODO 请求到了但未成功
-        }
-      }).catch((error) => {
-        this.$message.error("请求时出错！");
-        console.log(error);
-      });
+      }))
     },
     onLogin(){
       this.checkLogin()
