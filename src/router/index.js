@@ -35,16 +35,11 @@ const routes = [
       { path: '/PurchasedCourses', component: () => import('../components/UserCenter/PurchasedCourses.vue') }
     ]
   },
-  // {
-  //   path: '/UserMessage',
-  //   name: '/UserMessage',
-  //   component: () => import('../components/UserCenter/UserMessage.vue')
-  // },
-  // {
-  //   path: '/PurchasedCourses',
-  //   name: '/PurchasedCourses',
-  //   component: () => import('../components/UserCenter/PurchasedCourses.vue')
-  // }
+  {
+    path: '/Font',
+    name: 'Font',
+    component: () => import('../views/Font.vue'),
+  },
   {
     path: '/CourseDetail',
     name: '/CourseDetail',
