@@ -124,9 +124,17 @@ export default {
   methods: {
     gotoSearch() {  // 控制按钮
       console.log("=============this.inputValue=============",this.inputValue);
+      router.push({
+        path: '/Font',
+        query: {content: this.inputValue}
+      })
     },
     gotoSearch1() { // 控制input框回车
       console.log("=============this.inputValue1=============",this.inputValue);
+      router.push({
+        path: '/Font',
+        query: {content: this.inputValue}
+      })
     },
     gotoCenter() {
       if(this.role == 0) {

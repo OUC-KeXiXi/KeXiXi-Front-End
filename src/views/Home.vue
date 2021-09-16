@@ -6,7 +6,7 @@
       <div class="aside-div">
       <el-scrollbar>
         <div v-for="item in tabLists" :key="item">
-          <div class="tabItem">
+          <div class="tabItem" @click="gotoTagSearch(item.tag_id)">
           <span>{{ item.tag_name }}</span>
           <el-icon :size="14" color="#9c9ba6" class="tabIcon">
           <caret-right />
@@ -55,6 +55,7 @@ import Card from "../components/Card";
 import { CaretRight } from '@element-plus/icons'
 import FixedBottom from "../components/FixedBottom";
 import {get_all_tags} from "../api/course";
+import router from "../router";
 
 export default {
   name: 'Home',
@@ -86,6 +87,13 @@ export default {
     }))
   },
   methods: {
+    gotoTagSearch(event) {
+      console.log("===================tagID=================", event);
+      router.push({
+        path: '/Font',
+        query: {tag_id: event}
+      })
+    },
     handleClick(tab) {
       this.activeName = tab.paneName
       console.log('--------tab-----------',this.activeName)
