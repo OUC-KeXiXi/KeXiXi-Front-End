@@ -200,7 +200,7 @@ export default {
     changeAvatar() {
       this.btn_loading = true;
       change_avatar({
-        avatar: this.imageUrl,
+        path: this.imageUrl,
       })
         .then((response) => {
           if (response.data.code === 20000) {

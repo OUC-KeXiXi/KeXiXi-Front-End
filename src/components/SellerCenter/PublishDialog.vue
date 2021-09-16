@@ -41,30 +41,46 @@
         <span style="margin-left: 6px">元</span>
       </el-form-item>
       <el-form-item label="封面" prop="cover">
-        <el-upload class="upload-demo"
+        <div>
+          <el-upload class="upload-demo"
           action="https://weparallelines.top/api/upload"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
           :on-remove="handleRemoveFile"
+          :on-exceed="handleExceed"
           :http-request="uploadImg"
+          :multiple="false"
+          :limit="1"
+          :file-list="filelist"
           drag>
-          <img v-if="this.publishForm.cover!=''" class="el-upload-list__item-thumbnail"
-          :src="'https://weparallelines.top' + this.publishForm.cover" alt="" />
+          <div v-if="this.publishForm.cover" class="el-upload-list__item-thumbnail">
+            <img class="el-upload-list__item-thumbnail" :src="'https://weparallelines.top' + this.publishForm.cover" alt=""/>
+            <el-button
+            icon="el-icon-close"
+            class="delete-button"
+            @click="deleteImage()"
+            type="info"
+            circle
+            size="mini"
+          />
+          </div>
           <div v-else>
-          <i class="el-icon-upload"></i>
-          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           </div>
           <template #tip>
             <span class="el-upload__tip">只能上传 jpg/png 文件</span>
           </template>
         </el-upload>
+        </div>
+
       </el-form-item>
       <el-form-item label="课程内容" prop="content">
         <el-input type="textarea" :rows="15" v-model="publishForm.content" />
       </el-form-item>
       <div class="dialog-footer">
         <el-button @click="publishDialogVisible = false">取消</el-button>
-        <el-button type="primary">发布</el-button>
+        <el-button type="primary" @click="publish()">发布</el-button>
       </div>
     </el-form>
   </el-dialog>
@@ -91,6 +107,7 @@ export default {
       },
       taglist: [],
       preview_img : [],
+      filelist:[],
     };
   },
   mounted() {
@@ -131,8 +148,8 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.data.code === 20000) {
-            this.course.cover = res.data.data.path;
-            console.log(this.course.cover);
+            this.publishForm.cover = res.data.data.path
+            console.log(this.publishForm.cover);
           } else {
             console.log("上传失败：" + res.data.msg);
           }
@@ -142,6 +159,10 @@ export default {
         });
     },
     handleAvatarSuccess(res, file) {},
+    handleExceed(files, fileList){
+      console.log(files, fileList)
+      this.$message.error("只能上传一张图片！")
+    },
     beforeAvatarUpload(file) {
       const isJPG =
         file.type === "image/jpeg" ||
@@ -159,13 +180,16 @@ export default {
     },
     handlePreview(file) {},
     handleRemoveFile(file, fileList){
-      this.publishForm.cover="";
+      this.deleteImage();
     },
-    deleteImage: function () {
-      this.course.cover = "";
+    deleteImage() {
+      this.publishForm.cover = "";
       this.preview_img = [];
+      this.filelist=[];
     },
-
+    publish(){
+      console.log(this.publishForm)
+    },
   },
 };
 </script>
@@ -194,5 +218,16 @@ export default {
 }
 .el-upload__tip {
   margin-left: 6px;
+}
+.el-upload-list__item-thumbnail{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.delete-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0.7;
 }
 </style>

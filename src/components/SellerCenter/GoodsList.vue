@@ -31,6 +31,8 @@ export default {
   data() {
     return {
       selectedCourse:{
+        new:true,
+        course_id:"",
         title:"",
         content:"",
         cover:"",
@@ -53,6 +55,8 @@ export default {
     },
     toPublishNew(){
       this.selectedCourse={
+        new:true,
+        course_id:"",
         title:"",
         content:"",
         cover:"",
