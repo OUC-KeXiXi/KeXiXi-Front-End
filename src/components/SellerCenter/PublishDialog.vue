@@ -16,7 +16,7 @@
       label-width="120px"
     >
       <el-form-item label="课程标题" prop="title">
-        <el-input class="input_title" v-model="publishForm.title" />
+        <el-input class="input_title" v-model="publishForm.title" maxlength="30" show-word-limit/>
       </el-form-item>
       <el-form-item label="标签" prop="tags">
         <el-check-tag
