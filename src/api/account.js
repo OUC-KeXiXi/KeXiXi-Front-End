@@ -141,4 +141,3 @@ export function get_storage_user_data() {
     }
   })
 }
-

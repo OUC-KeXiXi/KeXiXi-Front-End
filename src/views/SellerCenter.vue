@@ -33,7 +33,6 @@
         <div class="goods-manager" v-if="currentIndex === '2'">
           <Goods/>
         </div>
-        <div class="order-manager" v-if="currentIndex === '3'">ccc</div>
       </div>
     </el-main>
   </el-container>
