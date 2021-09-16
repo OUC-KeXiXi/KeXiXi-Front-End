@@ -19,8 +19,9 @@
             <div>
               <el-input placeholder="请输入关键字..."
                         class="search-input"
-                        v-model="input2">
-                <template #append>搜索</template>
+                        @keyup.enter.native="gotoSearch1"
+                        v-model="inputValue">
+                <template #append><div @click="gotoSearch">搜索</div></template>
               </el-input>
             </div>
           </el-menu-item>
@@ -112,7 +113,7 @@ export default {
       isShow: false,
       role: 0, // buyer:0   seller:1
       activeIndex: "/home",
-      input2: '',
+      inputValue: '',
       logo: require('../assets/img/logo.png'),
       defaultAvatar: '',
     };
@@ -121,6 +122,12 @@ export default {
     this.checkLogin()
   },
   methods: {
+    gotoSearch() {  // 控制按钮
+      console.log("=============this.inputValue=============",this.inputValue);
+    },
+    gotoSearch1() { // 控制input框回车
+      console.log("=============this.inputValue1=============",this.inputValue);
+    },
     gotoCenter() {
       if(this.role == 0) {
         router.push('/UserCenter')
