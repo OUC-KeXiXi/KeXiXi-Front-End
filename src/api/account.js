@@ -59,6 +59,13 @@ export function change_nickname(data) {
   })
 }
 
+//获取全部标签
+export function get_all_tags() {
+  return axios({
+    url: '/api/course/get_all_tags',
+    method: 'get',
+  })
+}
 
 //获取推荐课程列表
 export function get_hottest_courses() {
