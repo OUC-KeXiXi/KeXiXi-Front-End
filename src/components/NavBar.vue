@@ -68,10 +68,25 @@
 
            <div style="float: right;">
              <el-menu-item index="7" v-if="role != 1" style="float: right;" >
-               <el-button type="text" class="btn">
-                 <el-icon style="vertical-align: middle;" :size="18" class="icon"><shopping-cart /></el-icon>
-                 <span style="vertical-align: middle;" > 购物车 </span>
-               </el-button>
+               <div v-if="isLogin == false">
+               <el-tooltip
+                   class="item"
+                   effect="dark"
+                   content="您还没有登录哦"
+                   placement="bottom"
+               >
+                 <el-button type="text" class="btn">
+                   <el-icon style="vertical-align: middle;" :size="18" class="icon"><shopping-cart /></el-icon>
+                   <span style="vertical-align: middle;" > 购物车 </span>
+                 </el-button>
+               </el-tooltip>
+               </div>
+               <div v-if="isLogin == true">
+                 <el-button type="text" class="btn" @click="gotoCart">
+                   <el-icon style="vertical-align: middle;" :size="18" class="icon"><shopping-cart /></el-icon>
+                   <span style="vertical-align: middle;" > 购物车 </span>
+                 </el-button>
+               </div>
              </el-menu-item>
            </div>
          </div>
@@ -112,6 +127,9 @@ export default {
       }else {
         router.push('/sellercenter')
       }
+    },
+    gotoCart() {
+      router.push('/ShoppingCart')
     },
     gotoHome() {
       router.push('/')
