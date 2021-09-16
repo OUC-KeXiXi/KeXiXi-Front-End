@@ -15,7 +15,7 @@
          </div>
 
           <div style="width: 40%;">
-          <el-menu-item index="2" v-if="role == 'buyer'">
+          <el-menu-item index="2" v-if="role != 1">
             <div>
               <el-input placeholder="请输入关键字..."
                         class="search-input"
@@ -40,7 +40,7 @@
                  </el-button>
                </el-menu-item>
                <el-menu-item index="3-2">
-                 <el-button type="text" class="btn1">
+                 <el-button type="text" class="btn1" @click="logout()">
                    <el-icon style="vertical-align: middle;" :size="18" class="icon1"><switch-button /></el-icon>
                    <span style="vertical-align: middle;"> 退出登录 </span>
                  </el-button>
@@ -67,7 +67,7 @@
            </div>
 
            <div style="float: right;">
-             <el-menu-item index="7" v-if="role == 'buyer'" style="float: right;">
+             <el-menu-item index="7" v-if="role != 1" style="float: right;">
                <el-button type="text" class="btn">
                  <el-icon style="vertical-align: middle;" :size="18" class="icon"><shopping-cart /></el-icon>
                  <span style="vertical-align: middle;" > 购物车 </span>
@@ -84,25 +84,47 @@
 import "../assets/css/el-menu.css"
 import { UserFilled, User, ShoppingCart, SwitchButton } from '@element-plus/icons'
 import LoginDialog from "../components/LoginDialog.vue";
-import {get_status} from "../api/account.js"
+import {get_status, logout} from "../api/account.js"
+import storage from "good-storage";
 
 export default {
   name: "NavBar",
   data() {
     return {
-      is_register: false,
-      isLogin: false, // true
+      is_register: false,// 用来判断登录注册弹框
+      isLogin: false, //  用来判断用户状态
       isShow: false,
-      role: 'buyer', // seller
+      role: 0, // buyer:0   seller:1
       activeIndex: "/home",
       input2: '',
       logo: require('../assets/img/logo.png'),
-      defaultAvatar: require('../assets/img/avatar_default.png'),
+      defaultAvatar: '',
     };
+  },
+  created() {
+    this.checkLogin()
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    logout(){
+      logout().then((response)=>{
+        if (response.data.code === 20000){
+          //成功
+          // 清空本地缓存
+          storage.clear();
+          this.$message.success('注销成功！');
+          this.isLogin = false;
+          this.role = 0;
+        }
+        else {
+          this.$message.error('注销失败：'+response.data.msg);
+        }
+      }).catch((error)=>{
+        this.$message.error('请求时出错！');
+        console.log(error);
+      })
     },
     openDialog(register) {
       this.is_register = register;
@@ -111,11 +133,17 @@ export default {
     changeState(register){
       this.is_register=register;
     },
-    onLogin(){
+
+    checkLogin() {
       get_status().then((response)=>{
-        console.log(response);
+        // console.log(response);
         if(response.data.code===20000){
           //TODO 判断
+          console.log('```````````数据ALL``````````````',response.data.data);
+          this.defaultAvatar = 'https://weparallelines.top'+ response.data.data.avatar;
+          this.role = response.data.data.role;
+          this.isLogin = response.data.data.login;
+          console.log('`````````````头像````````````',this.defaultAvatar);
         }
         else{
           //TODO 请求到了但未成功
@@ -124,7 +152,10 @@ export default {
         this.$message.error("请求时出错！");
         console.log(error);
       });
-    }
+    },
+    onLogin(){
+      this.checkLogin()
+    },
   },
   components: {
     UserFilled,
