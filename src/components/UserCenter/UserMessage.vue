@@ -1,48 +1,61 @@
 <template>
     <div class="body">
-        <div class="portrait">
-            <div class="portraitBox">
-                <el-avatar shape="square" :size="432.96" :src="squareUrl" :fit="fit"></el-avatar>
-            </div>
-        </div>
+        <div><span style="font-size:30px">个人信息</span></div>
         <hr/>
-        <div class="message">
-            <div class="meaasgeBox">
-                <el-card shadow="never">
-                    <div class='massage_card'>
-                        <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-                            <el-form-item label="昵称">
-                                <el-input v-model="formLabelAlign.nickname"></el-input>
-                            </el-form-item>
-                            <el-form-item label="密码">
-                                <el-input v-model="formLabelAlign.password" show-password></el-input>
-                            </el-form-item>
-                        </el-form>
-                    </div>
-                </el-card>
+
+        <div style="height:30px"></div>
+
+        <div class="main">
+            <div>
+                <div style="width:700px; float:left">
+                    <el-form :label-position="labelPosition" label-width="80px">
+                        <!-- <div class="size-icon"><i class="el-icon-dish" ></i></div> -->
+                        <el-form-item label="昵称："><el-input v-model="userMessage.nickname">{{userMessage.nickname}}</el-input></el-form-item>
+                    </el-form>
+                </div>
+                <div style="float:right"><el-button plain @click="resetNickname">昵称修改</el-button></div>
             </div>
-        </div>
-        <hr/>
-        <div class="operation">
-            <el-button type="primary" icon="eli-icon-delete" size="medium" @click="showEditDialog()">
-                <span class='buttonSpan' style="font-size:20px">修改信息</span>
-            </el-button>
+
+            <div style="clear:both"></div>
+            <hr/>
+
+            <div >
+                <div style="width:700px; float:left">
+                    <el-form :label-position="labelPosition" label-width="80px">
+                        <el-form-item label="邮箱："><el-input v-model="userMessage.email">{{userMessage.email}}</el-input></el-form-item>
+                    </el-form>
+                </div>
+                <div style="float:right"><el-button plain @click="resetMail">邮箱修改</el-button></div>
+            </div>
+
+            <div style="clear:both"></div>
+            <hr/>
+
+            <div>
+                <div style="width:700px; float:left">
+                    <el-form :label-position="labelPosition" label-width="80px">
+                        <el-form-item label="密码："><el-input v-model="userMessage.password" show-password></el-input></el-form-item>
+                    </el-form>
+                </div>
+                <div style="float:right"><el-button plain @click="showEditDialog">密码修改</el-button></div>
+            </div>
+
         </div>
 
         <el-dialog
-        title="用户信息修改"
+        title="密码信息修改"
         v-model="editDialogVisible">
-            <el-form :model="editForm" :rules="elitFormRules" label-width="100px" ref="resetFormRef">
-                <el-form-item label="昵称" prop="nickname">
-                    <el-input v-model="editForm.nickname"></el-input>
+            <el-form :model="userMessage" :rules="elitFormRules" label-width="100px">
+                <el-form-item label="新密码：" prop="password">
+                    <el-input v-model="new_password" show-password></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
-                    <el-input v-model="editForm.password" show-password></el-input>
+                <el-form-item label="确认密码：" prop="password">
+                    <el-input v-model="conform_new_password" show-password></el-input>
                 </el-form-item>
             </el-form>
             <span class="dialog-footer">
                 <el-button @click="editDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="resetUserMessage">确 定</el-button>
+                <el-button type="primary" @click="resetPassword">确 定</el-button>
             </span>
         </el-dialog>
 
@@ -50,145 +63,98 @@
 </template>
 
 <script>
-export default {
+import axios from 'axios'
+
+export default ({
     data () {
         return {
-            squareUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-
-            fit: 'cover',
-
-            labelPosition: 'top',
-
-            formLabelAlign: {
-                nickname: '',
-                password: ''
-            },
+            labelPosition: 'left',
 
             editDialogVisible: false,
 
-            editForm: {
-                nickname: '',
+            userMessage: {
+                nickname: '2324',
+                email: '213242',
                 password: ''
             },
-
+            // new_nickname: '',
+            // new_email: '',
+            new_password: '',
+            conform_new_password: '',
             editFormRules: {
-                nickname: [
-                    { required: true, message: '请输入新昵称', trigger: 'blur' },
-                    { min: 4, max: 30, message: '长度在 4 到 30 个字符', trigger: 'blur'}
-                ],
                 password: [
-                    { required: true, message: '请输入新密码', trigger: 'blur' },
-                    { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur'}
+                    { required: true, message: '请输入新密码', trigger: "blur" },
+                    { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: "blur"}
                 ]
-            }
+            },
+            data: {}
         }
     },
     methods: {
         showEditDialog () {
             this.editDialogVisible = true;
         },
-        resetUserMessage () {
-            // this.$refs.resetFormRef.validate((valid) => {
-            //     console.log(valid);
-            //     // this.changeNickname();
-            //     // const { data: res } = this.$http.post("api/account/status", this.editForm);
-            //     console.log(res);
+        resetPassword () {
+            // axios.post("", {
+
             // })
-            console.log(this.editForm.nickname + '----' + this.editForm.password);
+            console.log("---------------------------------");
+            console.log(this.new_password);
+            console.log(this.conform_new_password)
+            this.userMessage.password = this.conform_new_password;
+            if(this.new_password != this.conform_new_password)
+            {
+                this.$message.error("两次输入不一致！");
+                this.conform_new_password = '';
+                return;
+            }
+            console.log("---------------------------------");
+            this.new_password = '';
             this.editDialogVisible = false;
         },
-        // changeNickname(){
-        //     post_test({
-        //         nickname: this.editFormRules.nickname
-        //     }).then((response) => {
-        //         if (response.data.code === 20000) {
-        //             // 结果返回的状态码正常
-        //             // dosomething();
-        //         }
-        //         else {
-        //             // 根据其他状态码处理错误
-        //             notifyerror();
-        //         }
-        //     }).catch((error) => {
-        //         // 无请求返回时的异常处理
-        //         this.$message.error('请求时出错！');
-        //         console.log(error);
-        //     })
-        // },
+        resetNickname () {
+            //根据接口修改后台数据
+            axios.post("/api/account/change_nickname", {
+                nickname: this.userMessage.nickname
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+        },
+        resetMail () {
+            //根据接口修改后台数据
+            console.log(this.userMessage.email);
+            console.log(window.sessionStorage)
+        },
+        getMessage () {
+            axios.get("/api/account/status").then(res => {
+                // console.log(res.data.data);
+                this.userMessage.nickname = res.data.data.nickname;
+                this.userMessage.email = res.data.data.email;
+                this.userMessage.password = res.data.data.password;
+            })
+        }
+    },
+    created () {
+        this.getMessage();
     }
-}
+})
 </script>
 
 <style scoped lang="less">
 .body{
-    height:100%;
-    width:60%;
-    background-color: white;
-    border: 1px solid gray;
-
-    // position:absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+    margin-left: 30px;
+    margin-top: 30px;
 }
 
-.portrait{
-    height:40%;
-    background-color: rgb(236, 224, 200);
-
-    overflow: hidden;
-    // background: url("squareUrl") no-repeat center;
-    // background-size: cover;
-    // background-attachment: fixed;
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+.main{
+    height: 100%;
+    width: 70%;
+    margin-left: 70px;
 }
 
-.portraitBox{
-    height:432.96px;
-    width:432.96px;
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-}
-
-.message{
-    height:30%;
-}
-
-.meaasgeBox{
-    height:100%;
-    width:70%;
-
-    padding-top:3%;
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-}
-
-.operation{
-    height:20%;
-    background-color: white;
-}
-
-.el-button{
-    padding-left: 30px;
-    padding-right: 30px;
-
-    margin-left: 70%;
-    margin-top:10%;
+.size-icon{
+  font-size: 50px;
 }
 
 .dialog-footer{
@@ -198,15 +164,5 @@ export default {
 
 .dialog-footer>.el-button {
   margin: 0 2.5%;
-}
-
-.el-dialog{
-    display: flex;
-    flex-direction: column;
-    margin:0 !important;
-    // position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
 }
 </style>

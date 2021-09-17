@@ -1,80 +1,95 @@
 <template>
-    <div class="body">
-        <el-container class='el_outer_container'>
-            <!--头部区域../assets/logo.png-->
-            <el-header style="height:10%">
-                <div class='header_div'>
-                    <img src="" alt="auto">
-                    <span style="margin-left:15px">卖家个人中心</span>
-                </div>
-                <el-button type="info">退出</el-button>
-            </el-header>
-            <el-container>
+  <Nav></Nav>
+            <el-container class="el_inner_container">
                 <!-- 侧边栏区域 -->
-                <el-aside width=15%>
+                <el-aside width=200px>
                     <el-menu
-                    background-color="#306754"
-                    text-color="#fff"
+                    text-color="color: #1c1f21;"
                     active-text-color="#ffd04b"
                     :default-active="this.$router.path"
                     :router="true">
-                        <el-menu-item index="UserMessage"><span class='span'>个人信息修改</span></el-menu-item>
-                        <el-menu-item index="PurchasedCourses"><span class='span'>已购买课程</span></el-menu-item>
+                        <div class='avatar_section' @click="avatarDiagVisible = true">
+                            <div class="avatar_section1"><el-avatar :size="180" :src="squareUrl" :fit="fit"></el-avatar></div>
+                        </div>
+                        <div style="padding-top:20px"></div>
+                        <el-menu-item index="UserMessage"><i class="el-icon-user"></i><span class='span'>个人信息修改</span></el-menu-item>
+                        <el-menu-item index="PurchasedCourses"><i class="el-icon-s-order"></i><span class='span'>已购买课程</span></el-menu-item>
                     </el-menu>
                 </el-aside>
                 <!-- 页面主体显示区域 -->
-                <el-main><router-view></router-view></el-main>
+                <el-main style="overflow-y: scroll"><router-view></router-view></el-main>
             </el-container>
-        </el-container>
-    </div>
+  <FixedBottom></FixedBottom>
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+import Nav from "../NavBar.vue"
+import FixedBottom from "../FixedBottom";
+
+export default {
+    data () {
+        return {
+            avatarDiagVisible: 'false',
+
+            squareUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+
+            fit: 'cover',
+
+            imageUrl: '',
+
+            uploadData: {
+                img: ''
+            }
+        }
+    },
+    methods: {
+        getMessage () {
+            axios.get("/api/account/status").then(res => {
+                this.imageUrl = 'https://weparallelines.top' + res.data.data.avatar;
+                // console.log(this.imageUrl);
+            })
+        }
+    },
+    created () {
+        this.getMessage();
+    },
+    components:{
+        Nav,
+        FixedBottom
+  },
+}
 </script>
 
 <style scoped>
-.body{
-    height:100%;
-}
-
-.el_outer_container{
-   position:absolute;
-   left:0;
-   right:0;
-   top:0;
-   bottom:0;
-   overflow:hidden;
-}
-
-.el-header{
-    background-color:#0d5756;
-    display:flex;
-    justify-content:space-between;
-    padding-left:0;
-    align-items:center;
-    color:white;
-    font-size:30px;
-}
-
-.header_div{
-    display:flex;
-    align-items:center;
-}
-
-.el-menu-item{
-    height:100px
+.el_inner_container{
+  padding: 30px;
 }
 
 .span{
-    font-size:25px;
-}
-
-.el-aside{
-    background-color:#306754
+    font-size:20px;
 }
 
 .el-main{
-    background-color:#F0F8FF
+    overflow: hidden;
+}
+
+.avatar_section{
+    width: 100%;
+    height: 700%;
+}
+
+.avatar_section1{
+    width: 100%;
+    border: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.el-avatar{
+    border: none;
+    vertical-align: middle;
+    margin-left:5px;
 }
 </style>

@@ -37,7 +37,7 @@
                             <b style="
                             font-size: medium; 
                             font-weight: lighter; 
-                            margin-left: 560px;
+                            margin-left: 550px;
                             padding-left: 20px;
                             ">金额</b>
                             <b style="
@@ -52,10 +52,12 @@
                             <div id="lesson" class="flex" style="height: 80px; line-height: 20px; width:1100px">
                                 <el-checkbox v-model="item.checked" :label="index+1" border
                                 :checked="item.checked"></el-checkbox>
-                                <a href="https://www.baidu.com/">
+                                <router-link :to="{path:'/CourseDetail', query:{course_id: item.id}}">
                                 <img :src="item.img" style="margin-left: 80px; margin-right: 20px; height:90px; width:160px"/>
-                                </a>
-                                <a href="https://www.baidu.com/" style="width: 400px; text-align: left; margin-right: 20px;">{{item.title}}</a>
+                                </router-link>
+                                <router-link :to="{path:'/CourseDetail', query:{course_id: item.id}}" style="width:400px">
+                                <a style="width: 400px; text-align: left; margin-right: 20px;">{{item.title}}</a>
+                                </router-link>
                                 <b style="margin-right: 160px;width: 75px;">￥ {{item.price}}</b>
                                 <el-button @click="deleteBtn(item.id)" icon="el-icon-delete" style="margin-left:10px; font-size: 15px;" circle></el-button>
                             </div>

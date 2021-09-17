@@ -19,8 +19,9 @@
             <div>
               <el-input placeholder="请输入关键字..."
                         class="search-input"
-                        v-model="input2">
-                <template #append>搜索</template>
+                        @keyup.enter.native="gotoSearch1"
+                        v-model="inputValue">
+                <template #append><div @click="gotoSearch">搜索</div></template>
               </el-input>
             </div>
           </el-menu-item>
@@ -68,10 +69,25 @@
 
            <div style="float: right;">
              <el-menu-item index="7" v-if="role != 1" style="float: right;" >
-               <el-button type="text" class="btn">
-                 <el-icon style="vertical-align: middle;" :size="18" class="icon"><shopping-cart /></el-icon>
-                 <span style="vertical-align: middle;" > 购物车 </span>
-               </el-button>
+               <div v-if="isLogin == false">
+               <el-tooltip
+                   class="item"
+                   effect="dark"
+                   content="您还没有登录哦"
+                   placement="bottom"
+               >
+                 <el-button type="text" class="btn">
+                   <el-icon style="vertical-align: middle;" :size="18" class="icon"><shopping-cart /></el-icon>
+                   <span style="vertical-align: middle;" > 购物车 </span>
+                 </el-button>
+               </el-tooltip>
+               </div>
+               <div v-if="isLogin == true">
+                 <el-button type="text" class="btn" @click="gotoCart">
+                   <el-icon style="vertical-align: middle;" :size="18" class="icon"><shopping-cart /></el-icon>
+                   <span style="vertical-align: middle;" > 购物车 </span>
+                 </el-button>
+               </div>
              </el-menu-item>
            </div>
          </div>
@@ -97,7 +113,7 @@ export default {
       isShow: false,
       role: 0, // buyer:0   seller:1
       activeIndex: "/home",
-      input2: '',
+      inputValue: null,
       logo: require('../assets/img/logo.png'),
       defaultAvatar: '',
     };
@@ -106,8 +122,29 @@ export default {
     this.checkLogin()
   },
   methods: {
+    gotoSearch() {  // 控制按钮
+      console.log("=============this.inputValue=============",this.inputValue);
+      router.push({
+        path: '/Font',
+        query: {content: this.inputValue}
+      })
+    },
+    gotoSearch1() { // 控制input框回车
+      console.log("=============this.inputValue1=============",this.inputValue);
+      router.push({
+        path: '/Font',
+        query: {content: this.inputValue}
+      })
+    },
     gotoCenter() {
-      router.push('/sellercenter')
+      if(this.role == 0) {
+        router.push('/UserCenter')
+      }else {
+        router.push('/sellercenter')
+      }
+    },
+    gotoCart() {
+      router.push('/ShoppingCart')
     },
     gotoHome() {
       router.push('/')
@@ -124,6 +161,7 @@ export default {
           this.$message.success('注销成功！');
           this.isLogin = false;
           this.role = 0;
+          this.$router.push({path: "/"})
         }
         else {
           this.$message.error('注销失败：'+response.data.msg);

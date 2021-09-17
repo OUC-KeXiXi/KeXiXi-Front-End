@@ -35,16 +35,11 @@ const routes = [
       { path: '/PurchasedCourses', component: () => import('../components/UserCenter/PurchasedCourses.vue') }
     ]
   },
-  // {
-  //   path: '/UserMessage',
-  //   name: '/UserMessage',
-  //   component: () => import('../components/UserCenter/UserMessage.vue')
-  // },
-  // {
-  //   path: '/PurchasedCourses',
-  //   name: '/PurchasedCourses',
-  //   component: () => import('../components/UserCenter/PurchasedCourses.vue')
-  // }
+  {
+    path: '/Font',
+    name: 'Font',
+    component: () => import('../views/Font.vue'),
+  },
   {
     path: '/CourseDetail',
     name: '/CourseDetail',
@@ -54,6 +49,21 @@ const routes = [
     path: '/SnapshotDetail',
     name: '/SnapshotDetail',
     component: () => import('../components/SnapshotDetail.vue'),
+  },
+    {
+    path: '/ShoppingCart',
+    name: '/ShoppingCart',
+    component: () => import('../views/ShoppingCart.vue'),
+  },
+  {
+    path: '/OrderComfirm',
+    name: '/OrderComfirm',
+    component: () => import('../views/OrderComfirm.vue'),
+  },
+  {
+    path: '/OrderDetail',
+    name: '/OrderDetail',
+    component: () => import('../views/OrderDetail.vue'),
   },
 ]
 
