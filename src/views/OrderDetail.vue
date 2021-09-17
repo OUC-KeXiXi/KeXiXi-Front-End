@@ -210,7 +210,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .el-row {
         margin-bottom: 20px;
     }
