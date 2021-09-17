@@ -2,7 +2,7 @@
     <div class="body">
         <el-container class='el_outer_container'>
             <!--头部区域../assets/logo.png-->
-            <el-header style="height:10%; width:110%">
+            <el-header style="height:10%;">
                 <Nav></Nav>
             </el-header>
             <el-container class="el_inner_container">
@@ -89,10 +89,6 @@ export default {
     overflow: auto;
     margin-left: 30px;
     margin-right: 30px;
-}
-
-.el-header{
-    padding-left:0;
 }
 
 .span{
