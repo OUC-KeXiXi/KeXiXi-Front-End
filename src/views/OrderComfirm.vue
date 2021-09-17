@@ -28,42 +28,52 @@
                         box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
                         overflow-y:hidden;
                         ">
-                        <div id="sub-header" align="left" style="margin-top: 20px;margin-bottom: -60px; margin-left: 30px; height: 90px;line-height: 30px;">
-                            <i class="el-icon-goods"></i>
-                            <b style="
-                            font-size: medium;
-                            font-weight: lighter; 
-                            ">订单号：21092768653216865</b>
-                            <b style="
-                            margin-left: 700px;
-                            font-size: medium;
-                            font-weight: lighter; 
-                            ">订单时间：{{getCurrentTime}}</b>
-                        </div>
-                        <el-divider></el-divider>
-                        <template v-for="(item, index) in lessons" :key="item.id">
-                            <div id="lesson" class="flex" style="height: 80px; line-height: 20px; width:1100px">
-                                <b style="margin-right: 50px;">{{index+1}}</b>
-                                <img :src="item.img" style="margin-right: 30px; height:90px; width:160px"/>
-                                <b style="width: 400px; text-align: left; margin-right: 260px; font-weight: lighter;">{{item.title}}</b>
-                                <b style="width: 75px;">￥ {{item.price}}</b>
+                        <div id="sub-header" align="left" style="width:90%; float:left;margin-top: 20px;margin-bottom: -60px; margin-left: 5%; height: 90px;line-height: 30px;">
+                            <div style="float:left; text-align:left; width:50%">
+                                <i class="el-icon-goods"></i>
+                                <b style="
+                                font-size: medium;
+                                font-weight: lighter; 
+                                ">订单号：21092768653216865</b>
                             </div>
-                            <el-divider></el-divider>
-                        </template>
-                        <div id="payment" align="left" style="margin-bottom: -60px; margin-left: 30px; height: 90px;line-height: 30px;">
-                            <i class="el-icon-bank-card"></i>
-                            <b style="
-                            font-size: medium;
-                            font-weight: lighter; 
-                            ">支付方式</b>
-                            <b style="
-                            margin-left: 780px;
-                            color: rgb(236, 27, 27);
-                            font-size: medium;
-                            font-weight: lighter; 
-                            ">使用银联支付，随机减免1-5元</b>
+                            <div style="float:left; text-align:right; width:50%">
+                                <b style="
+                                font-size: medium;
+                                font-weight: lighter; 
+                                ">订单时间：{{getCurrentTime}}</b>
+                            </div>
                         </div>
-                        <div style="margin-top: 20px;margin-bottom: -60px;">
+                        
+                        <el-divider style="margin-top:60px"></el-divider>
+                        <template v-for="item in lessons" :key="item.id">
+                            <div id="lesson" class="flex" style="width:80%; float:left; height: 80px; line-height: 20px; margin-left:5%">
+                                <img :src="item.img" style="margin-right: 30px; height:90px; width:160px;"/>
+                                <div style="float:left; text-align:left; width:80%">
+                                    <b style="width: 400px; font-weight: lighter">{{item.title}}</b>
+                                </div>
+                                <div style="float:left; text-align:right; width:20%">
+                                    <b style="width: 75px;">￥ {{item.price}}</b>
+                                </div>
+                            </div>
+                            <el-divider style="margin-top:120px"></el-divider>
+                        </template>
+                        <div id="payment" align="left" style="width:90%; float:left;margin-bottom: -60px; margin-left: 5%; height: 90px;line-height: 30px;">
+                            <div style="float:left; text-align:left; width:50%">
+                                <i class="el-icon-bank-card"></i>
+                                <b style="
+                                font-size: medium;
+                                font-weight: lighter; 
+                                ">支付方式</b>
+                            </div>
+                            <div style="float:left; text-align:right; width:50%">
+                                <b style="
+                                color: rgb(236, 27, 27);
+                                font-size: medium;
+                                font-weight: lighter; 
+                                ">使用银联支付，随机减免1-5元</b>
+                            </div>
+                        </div>
+                        <div style="margin-top:80px;margin-bottom: -60px;">
                             <img v-if="!isAli" src="../assets/AliPay.jpg" border="2" @click="alipay"
                             style="cursor: pointer;border-radius: 10px; border-color: rgb(201, 202, 211); margin-right: 50px; margin-left: 0px;"/>
                             <img v-if="isAli" src="../assets/AliPay.jpg" border="2" @click="alipayCancel"
@@ -80,11 +90,15 @@
                             style="cursor: pointer;border-radius: 10px; border-color: rgb(247, 13, 13);"/>
                         </div>
                         <el-divider></el-divider>
-                        <div align="right" style="margin-bottom: -80px; margin-right: -20px; height: 90px;line-height: 30px">
-                            <i class="el-icon-warning" style="color: rgb(255, 153, 0);"></i>
-                            <b style="margin-right: 550px; font-weight: lighter; color: rgb(255, 153, 0);">已为您锁定课程席位，网课服务认准课夕夕！</b>
+                        <div align="right" style="width:96%; float:left;margin-left:4%;margin-bottom: -80px; margin-right: -20px; height: 90px;line-height: 30px">
+                            <div style="float:left; text-align:left; width:50%">
+                                <i class="el-icon-warning" style="color: rgb(255, 153, 0);"></i>
+                                <b style="font-weight: lighter; color: rgb(255, 153, 0);">已为您锁定课程席位，网课服务认准课夕夕！</b>
+                            </div>
+                            <div style="float:left; text-align:right; width:50%">
                             <b style="font-weight: lighter;">应付金额：</b>
                             <b style="color: red; font-size: x-large; width: 150px;text-align: left;margin-right: 50px;">￥ {{totalCount}}.00</b>
+                            </div>
                         </div>
                         <div align="right" style="height: 100px;margin-top: -80px;margin-bottom: 30px;">
                             <el-button @click="buy" type="danger" size="large" style="
@@ -97,7 +111,7 @@
                             margin-top: 0px;
                             ">立即支付</el-button>
                         </div>
-                        <div align="right" style="height: 100px;margin-top: -70px;margin-bottom: 10px; margin-right: 30px;">
+                        <div align="right" style="height: 100px;margin-top: 10px;margin-bottom: 10px; margin-right: 30px;">
                             <el-button type="text">付款问题反馈</el-button>
                         </div>
                         </el-main>
