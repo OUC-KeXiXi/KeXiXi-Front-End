@@ -23,12 +23,16 @@
                             <p class="detail-price">￥{{detail.price}}</p>
                             <p class="detail-sales">已售：{{detail.sales}}</p>
                             <div class="detail-add">
-                                <el-button v-if="!added" type="danger" icon="el-icon-plus" round @click="cart_add()">添加至购物车</el-button>
-                                <el-button v-else type="success" icon="el-icon-check" round @click="cart_delete()">已在购物车中</el-button>
+                                <div v-if="!added">
+                                    <el-button type="danger" icon="el-icon-plus" round @click="cart_add()">添加至购物车</el-button>
+                                </div>
+                                <div v-else>
+                                    <router-link :to="'/OrderComfirm?ids=' + course_id"  class="detail-order"><el-button type="primary" icon="el-icon-goods" round> 下单</el-button></router-link>
+                                    <el-button type="success" icon="el-icon-check" round @click="cart_delete()">已在购物车中</el-button>
+                                </div>
                             </div>
                             <div class="detail-cart">
-                                <router-link to="/cart"><el-button type="warning" icon="el-icon-shopping-cart-2" round> 购物车</el-button></router-link>
-                                <router-link to="/order" class="detail-order"><el-button type="primary" icon="el-icon-goods" round> 下单</el-button></router-link>
+                                
                             </div>
                         </div>
                     </div>
@@ -156,6 +160,7 @@ p {
             flex: 2;
             .detail-title {
                 font-size: x-large;
+                margin-left: 5px;
             }
             .tags {
                 display: flex;
@@ -166,6 +171,7 @@ p {
             .detail-seller {
                 color: blue;
                 margin-bottom: 2vh;
+                margin-left: 5px;
             }
 
             .detail-buy {
@@ -180,12 +186,8 @@ p {
                     color: red;
                 }
                 .detail-add {
-                    text-align: right;
-                }
-                .detail-cart {
-                    padding: 5px;
                     .detail-order {
-                        margin-left: 5px;
+                        margin-right: 15px;
                     }
                 }
             }
@@ -195,7 +197,7 @@ p {
     .detail-line {
         width: 100%;
         color: dimgray;
-        margin-top: 2vh;
+        margin: 3vh 0;
     }
 }
 

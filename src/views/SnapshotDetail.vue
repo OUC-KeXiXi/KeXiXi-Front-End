@@ -25,10 +25,6 @@
                             <div class="detail-add">
                                 <el-button type="info" icon="el-icon-plus" round @click="cart_denied()">快照不可购买</el-button>
                             </div>
-                            <div class="detail-cart">
-                                <router-link to="/cart"><el-button type="warning" icon="el-icon-shopping-cart-2" round> 购物车</el-button></router-link>
-                                <router-link to="/order" class="detail-order"><el-button type="primary" icon="el-icon-goods" round> 下单</el-button></router-link>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,6 +111,7 @@ p {
             flex: 2;
             .detail-title {
                 font-size: x-large;
+                margin-left: 5px;
             }
             .tags {
                 display: flex;
@@ -124,6 +121,7 @@ p {
             }
             .detail-seller {
                 color: blue;
+                margin-left: 5px;
                 margin-bottom: 2vh;
             }
 
@@ -154,7 +152,7 @@ p {
     .detail-line {
         width: 100%;
         color: dimgray;
-        margin-top: 2vh;
+        margin: 3vh 0;
     }
 }
 
