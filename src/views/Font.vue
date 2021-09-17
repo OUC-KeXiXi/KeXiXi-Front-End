@@ -2,19 +2,25 @@
     <div id="app">
         <NavBar></NavBar>
         <el-container style="height: 870px">
-            <el-main style="background-color: #ffffff;">
-                <div id="center-main" style="background-color: rgb(205, 210, 224); margin-left: -1.3%;" align="left">
+            <el-main style="">
+                <div id="center-main" style="margin-left: 0%;" align="left">
                     <el-container style="background-color: #ffffff;">
-                        <el-header style="background-color: #f2f4f6; width: 100%; height: 130px; margin-top: -1.2%;">
-                            <div style="margin-top: 0px; margin-left: 11%;" align="left">
+                        <el-header style="background-color: #f2f4f6;width: 100%; height: 130px; margin-top: -1.2%;">
+                            <div style="margin-top: 0px; margin-left: 0%;" align="left">
                                 <p>
-                                    <img src="../assets/img/logo.png" style="width: 100px; height: 40px; vertical-align: -10px">
+                                    <img src="../assets/img/logo.png" style="margin-left : 0px; width: 100px; height: 40px; vertical-align: -10px">
                                     <b style="font-size: 30px;">课夕夕</b>
                                     <span style="font-size: 10px; vertical-align: 3px; color:rgb(89, 103, 134)">网课的圣地</span>
+                                    <el-input style="margin-left: 780px; width: 350px" placeholder="请输入关键字..."
+                                            class="search-input"
+                                            @keyup.enter.native="gotoSearch1"
+                                            v-model="inputValue">
+                                            <template #append><div @click="gotoSearch()">搜索</div></template>
+                                    </el-input>
                                 </p>
                             </div>
                             <div style="margin-top: -30px; margin-left: -13.5%;">
-                                <b style="margin-left: -830px; font-size: medium; padding-right: 10px">分类:</b>
+                                <b style="margin-left: -835px; font-size: medium; padding-right: 10px">分类:</b>
                                     <el-button @click="changeBtn1()" :type="!showmode1 ? 'text' : 'grey'" plain style="color: black;"><span style="font-size: small; ">不限</span></el-button>
                                     <el-button @click="changeBtn2()" :type="!showmode2 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small;">前端</span></el-button>
                                     <el-button @click="changeBtn3()" :type="!showmode3 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small; ">后端</span></el-button>
@@ -23,14 +29,14 @@
                                     <el-button @click="changeBtn6()" :type="!showmode6 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small;">SpringBoot</span></el-button>
                             </div>
                         </el-header>
-                        <el-main style="background-color: #ffffff; width: 80%; margin-left: 11%; height: 900px">
-                          <div style="text-align: left; margin-left: -19px; margin-top: -10px;">
+                        <el-main style="background-color: #ffffff; margin-left: 0%; height: 900px">
+                          <div style="text-align: left; margin-left: -20px; margin-top: -10px;">
                               <el-button @click="changeTag1()" :type="!showtag1 ? 'text' : 'grey'" size="mini" style="color: black; margin-left: 20px;"><span style="font-size: small;">最新</span></el-button>
                               <el-button @click="changeTag2()" :type="!showtag2 ? 'text' : 'grey'" size="mini" style="color: black"><span style="font-size: small;">销量</span></el-button>
                               <el-button @click="changeTag3()" :type="!showtag3 ? 'text' : 'grey'" size="mini" style="color: black"><span style="font-size: small;">置顶</span></el-button>
                           </div>
-                            <div v-if="lessons.length > 0" style="margin-top: 10px;">
-                              <el-row :gutter="25">
+                            <div v-if="lessons.length > 0" style="margin-top: 10px; margin-left: 0px">
+                              <el-row :gutter="20">
                               <template v-for="item in lessons.slice(0 + (currentPage - 1) * 15, 5 + (currentPage - 1) * 15)" :key="item.course_id" >
                               <el-col :span="4.9">
                                 <el-card :body-style="{ padding: '0px' }" shadow="hover" style="height: 250px; width: 262px;">
@@ -55,14 +61,14 @@
                             </el-row>
                         </div>
                         
-                        <div v-if="lessons.length > 5" style="margin-top: 20px;">
-                              <el-row :gutter="25">
+                        <div v-if="lessons.length > 5" style="margin-top: 20px; margin-left: 0px">
+                              <el-row :gutter="20">
                               <template v-for="item in lessons.slice(5 + (currentPage - 1) * 15, 10 + (currentPage - 1) * 15)" :key="item.course_id">
                               <el-col :span="4.9">
                                 <el-card :body-style="{ padding: '0px' }" shadow="hover" style="height: 250px; width: 262px;">
-                                   <a href="https://www.baidu.com/">  
+                                   <router-link :to="{path: '/CourseDetail', query:{course_id: item.id}}">  
                                   <img :src="item.img" class="image" style="height: 144px; width: 262px">
-                                 </a>
+                                 </router-link>
                                   <div style="text-align: left; margin-left: 5px; margin-top: 3px; line-height: 15px; width: 250px;">
                                               <span style="font-size: small">{{item.title}}</span>
                                 </div>
@@ -81,14 +87,14 @@
                             </el-row>
                         </div>
 
-                        <div v-if="lessons.length > 10" style="margin-top: 20px;">
-                              <el-row :gutter="25">
+                        <div v-if="lessons.length > 10" style="margin-top: 20px; margin-left: 0px">
+                              <el-row :gutter="20">
                               <template v-for="item in lessons.slice(10 + (currentPage - 1) * 15, 15 + (currentPage - 1) * 15)" :key="item.course_id">
                               <el-col :span="4.9">
                                 <el-card :body-style="{ padding: '0px' }" shadow="hover" style="height: 250px; width: 262px;">
-                                  <a href="https://www.baidu.com/">  
+                                  <router-link :to="{path: '/CourseDetail', query:{course_id: item.id}}">  
                                   <img :src="item.img" class="image" style="height: 144px; width: 262px">
-                                 </a>
+                                 </router-link>
                                   <div style="text-align: left; margin-left: 5px; margin-top: 3px; line-height: 15px; width: 250px;">
                                               <span style="font-size: small">{{item.title}}</span>
                                 </div>
@@ -109,7 +115,7 @@
                         </el-main>
                     </el-container>
                 </div>
-                <div class="block" style="margin-top: 0px; height: 50px;">
+                <div class="block" style="margin-top: 30px; height: 50px;">
                     <el-pagination
                       @size-change="handleSizeChange"
                       @current-change="handleCurrentChange"
@@ -124,6 +130,7 @@
                 <Bottom style="line-height: 15px; height: 130px"></Bottom>
             </el-main>
         </el-container>
+        
     </div>
 </template>
 
@@ -144,7 +151,9 @@ export default {
                 lessons:[],
                 cinfo:[],
                 info:null,
+                inputValue: null,
                 num:0 ,
+                content: null,
                 currentPage: 1,
                 showmode1: true,
                 showmode2: false,
@@ -160,6 +169,20 @@ export default {
             }
         },
         methods: {
+            gotoSearch() {  // 控制按钮 
+                this.lessons.splice(0, this.lessons.length);
+                this.content = this.inputValue;
+                console.log(this.content);
+                if (this.content != null) {
+                    console.log('我在if');
+                    console.log('input是' + this.inputValue)
+                    this.searchTwo();
+                } else{
+                    console.log('我在else');
+                    this.searchOne();
+                }
+                this.inputValue = null;
+            },
             searchOne() {
                 if (this.tagTwo == 0) {
                     let t = this;
@@ -178,8 +201,20 @@ export default {
                         //console.log(params.data.data);
                         console.log(res);
                         var d = res.data.data;
-                        for (let j = 0; j < d.tags.length; j++) {
-                            if (d.tags[j].tag_id == this.tagOne || this.tagOne == 0) {
+                        console.log("d是" + d + "tag的长度是" + d.tags.length);
+                        if (this.tagOne == 0) {
+                            var temp = {
+                                    id: d.course_id,
+                                    img: 'https://weparallelines.top' + d.cover,
+                                    title: d.title,
+                                    price: d.price,
+                                    sales: d.sales,
+                                };
+                                t.lessons.push(temp);
+                        } else if (d.tags.length != 0){
+                            
+                                for (let j = 0; j < d.tags.length; j++) {
+                                if (d.tags[j].tag_id == this.tagOne) {
                                 var temp = {
                                     id: d.course_id,
                                     img: 'https://weparallelines.top' + d.cover,
@@ -188,8 +223,12 @@ export default {
                                     sales: d.sales,
                                 };
                                 t.lessons.push(temp);
+                                break;
                             }
                         }
+                            
+                        } 
+                        
                     })
                 }
             })
@@ -215,8 +254,20 @@ export default {
                         //console.log(params.data.data);
                         console.log(res);
                         var d = res.data.data;
-                        for (let j = 0; j < d.tags.length; j++) {
-                            if (d.tags[j].tag_id == this.tagOne || this.tagOne == 0) {
+                        console.log("d是" + d + "tag的长度是" + d.tags.length);
+                        if (this.tagOne == 0) {
+                            var temp = {
+                                    id: d.course_id,
+                                    img: 'https://weparallelines.top' + d.cover,
+                                    title: d.title,
+                                    price: d.price,
+                                    sales: d.sales,
+                                };
+                                t.lessons.push(temp);
+                        } else if (d.tags.length != 0){
+                            
+                                for (let j = 0; j < d.tags.length; j++) {
+                                if (d.tags[j].tag_id == this.tagOne) {
                                 var temp = {
                                     id: d.course_id,
                                     img: 'https://weparallelines.top' + d.cover,
@@ -225,8 +276,12 @@ export default {
                                     sales: d.sales,
                                 };
                                 t.lessons.push(temp);
+                                break;
                             }
                         }
+                            
+                        } 
+                        
                     })
                 }
             })
@@ -252,8 +307,20 @@ export default {
                         //console.log(params.data.data);
                         console.log(res);
                         var d = res.data.data;
-                        for (let j = 0; j < d.tags.length; j++) {
-                            if (d.tags[j].tag_id == this.tagOne || this.tagOne == 0) {
+                        console.log("d是" + d + "tag的长度是" + d.tags.length);
+                        if (this.tagOne == 0) {
+                            var temp = {
+                                    id: d.course_id,
+                                    img: 'https://weparallelines.top' + d.cover,
+                                    title: d.title,
+                                    price: d.price,
+                                    sales: d.sales,
+                                };
+                                t.lessons.push(temp);
+                        } else if (d.tags.length != 0){
+                            
+                                for (let j = 0; j < d.tags.length; j++) {
+                                if (d.tags[j].tag_id == this.tagOne) {
                                 var temp = {
                                     id: d.course_id,
                                     img: 'https://weparallelines.top' + d.cover,
@@ -262,16 +329,70 @@ export default {
                                     sales: d.sales,
                                 };
                                 t.lessons.push(temp);
+                                break;
                             }
                         }
+                            
+                        } 
+                        
                     })
                 }
             })
             .catch(function(error){
                 console.log(error);
             });
-            };
+            }
             },
+
+            searchTwo() {
+                let t = this;
+                console.log(this.tagOne);
+               /* if (this.tagOne == 0) {*/
+                    var data = {content: this.content};
+                /*} else{
+                    var data = {content: this.content,
+                                tag_id: this.tagOne};
+                }*/
+                var dinfo = axios({
+                    url: "/api/course/search",
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    data,
+                }).then(res => {
+                    console.log(res);
+                    var d = res.data.data;
+                    for (let i = 0; i < d.courses.length; i++) {
+                        console.log(d.courses[i].course_id + 'tag是' + this.tagOne);
+                        if (this.tagOne == 0) {
+                            var temp = {
+                                id: d.courses[i].course_id,
+                                img: 'https://weparallelines.top' + d.courses[i].cover,
+                                title: d.courses[i].title,
+                                price: d.courses[i].price,
+                                sales: d.courses[i].sales,
+                            };
+                            t.lessons.push(temp);
+                            continue;
+                        } else if (d.courses[i].tags.length != 0){
+                                console.log("我的长度是" + d.courses[i].tags.length);
+                                for (let j = 0; j < d.courses[i].tags.length; j++) {
+                                    if (d.courses[i].tags[j].tag_id == this.tagOne) {
+                                        var temp = {
+                                            id: d.courses[i].course_id,
+                                            img: 'https://weparallelines.top' + d.courses[i].cover,
+                                            title: d.courses[i].title,
+                                            price: d.courses[i].price,
+                                            sales: d.courses[i].sales,
+                                        };
+                                        t.lessons.push(temp);
+                                        break;
+                                }
+                            }
+                        } 
+                    }
+                })
+            },
+
             changeBtn1() {
                 this.lessons.splice(0, this.lessons.length);
                 this.showmode1 = true;
@@ -281,11 +402,20 @@ export default {
                 this.showmode5 = false;
                 this.showmode6 = false;  
                 this.tagOne = 0;
-                this.searchOne();
+                console.log("content是" + this.content);
+
+                if (this.content != null) {
+                    console.log("content不为null" + this.content)
+                    this.searchTwo();
+                } else{
+                    console.log("content为null")
+                    this.searchOne();
+                }
             },
 
             changeBtn2() {
                 this.lessons.splice(0, this.lessons.length);
+                console.log(this.content);
                 this.showmode2 = true;
                 this.showmode1 = false;
                 this.showmode3 = false;
@@ -293,7 +423,13 @@ export default {
                 this.showmode5 = false;
                 this.showmode6 = false;  
                 this.tagOne = 1;
-                this.searchOne();
+                if (this.content != null) {
+                     console.log("content不为null")
+                    this.searchTwo();
+                } else{
+                    console.log("content为null")
+                    this.searchOne();
+                }
             },
 
             changeBtn3() {
@@ -305,7 +441,11 @@ export default {
                 this.showmode5 = false;
                 this.showmode6 = false;  
                 this.tagOne = 2;
-                this.searchOne();
+                if (this.content != null) {
+                    this.searchTwo();
+                } else{
+                    this.searchOne();
+                }
             },
 
             changeBtn4() {
@@ -317,7 +457,11 @@ export default {
                 this.showmode5 = false;
                 this.showmode6 = false;  
                 this.tagOne = 3;
-                this.searchOne();
+                if (this.content != null) {
+                    this.searchTwo();
+                } else{
+                    this.searchOne();
+                }
             },
 
             changeBtn5() {
@@ -329,7 +473,11 @@ export default {
                 this.showmode1 = false;
                 this.showmode6 = false;  
                 this.tagOne = 4;
-                this.searchOne();
+                if (this.content != null) {
+                    this.searchTwo();
+                } else{
+                    this.searchOne();
+                }
             },
 
             changeBtn6() {
@@ -341,7 +489,11 @@ export default {
                 this.showmode1 = false;
                 this.showmode5 = false;  
                 this.tagOne = 5;
-                this.searchOne();
+                if (this.content != null) {
+                    this.searchTwo();
+                } else{
+                    this.searchOne();
+                }
             },
 
             changeTag1() {
@@ -350,7 +502,11 @@ export default {
                 this.showtag2 = false;
                 this.showtag3 = false;
                 this.tagTwo = 0;
-                this.searchOne();
+                if (this.content != null) {
+                    this.searchTwo();
+                } else{
+                    this.searchOne();
+                }
             },
 
             changeTag2() {
@@ -359,7 +515,11 @@ export default {
                 this.showtag1 = false;
                 this.showtag3 = false;
                 this.tagTwo = 1;
-                this.searchOne();
+                if (this.content != null) {
+                    this.searchTwo();
+                } else{
+                    this.searchOne();
+                }
             },
 
             changeTag3() {
@@ -368,7 +528,12 @@ export default {
                 this.showtag2 = false;
                 this.showtag1 = false;
                 this.tagTwo = 2;
-                this.searchOne();
+                if (this.content != null) {
+                    this.searchTwo();
+                } else {
+                    console.log("我是else")
+                    this.searchOne();
+                }
             },
 
             addShopping(val) {
@@ -398,8 +563,9 @@ export default {
                 Bottom,
             },
         mounted () {
-            let detailArr = this.$route.query.id;
+            let detailArr = this.$route.query.content;
             let t = this;
+            this.content = detailArr;
             var data = {content: detailArr};
             console.log(data.content);
             if (data.content  != null) {
@@ -457,7 +623,7 @@ export default {
 }
 </script>
 
-<style >
+<style lang="less" scoped>
 .el-row {
     margin-bottom: 20px;
 }
@@ -495,7 +661,7 @@ export default {
         }
         .el-main {
             background-color: #E9EEF3;
-            color: #333;
+            
             text-align: center;
             line-height: 0px;
         }
