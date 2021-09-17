@@ -116,6 +116,7 @@ export default {
       inputValue: null,
       logo: require('../assets/img/logo.png'),
       defaultAvatar: '',
+      userdata:''
     };
   },
   created() {
@@ -138,7 +139,13 @@ export default {
     },
     gotoCenter() {
       if(this.role == 0) {
-        router.push('/UserCenter')
+        // router.push('/UserCenter')
+        // router.push('/UserMessage')
+        let arr = encodeURIComponent(JSON.stringify(this.userdata));
+        router.push({
+          path: '/UserCenter',
+          query: {userdata: arr}
+        })
       }else {
         router.push('/sellercenter')
       }
@@ -182,7 +189,8 @@ export default {
 
     checkLogin() {
       get_storage_user_data().then((res=>{
-        console.log('========userdata===========', res);
+        this.userdata = res;
+        console.log('========userdata===========', this.userdata);
         if(res.username == '' && res.email == '') {
           get_status().then((response)=>{
             // console.log(response);
