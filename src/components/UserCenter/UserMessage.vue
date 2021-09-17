@@ -151,7 +151,6 @@ export default ({
     height: 100%;
     width: 70%;
     margin-left: 70px;
-    /* background-color: lawngreen; */
 }
 
 .size-icon{

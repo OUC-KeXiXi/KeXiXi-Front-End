@@ -1,8 +1,7 @@
 <template>
     <div class="main">
-        <el-table
+        <el-table style="width: 100%; height:100%;"
         :data="tableData"
-        style="width: 100%; height:100%;"
         :default-sort = "{prop: 'order_id', order: 'descending'}"
         @row-click="routerLink">
             <el-table-column
@@ -140,6 +139,6 @@ export default {
   margin-left: 20px;
   margin-top: 10px;
   overflow: hidden;
-  position: flex;
+  display: flex;
 }
 </style>

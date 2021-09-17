@@ -90,7 +90,7 @@ export default {
 <style scoped lang="less">
 @import "../style/style.less";
 .sellercenter{
-  padding: 30px 0;
+  padding: 30px;
 }
 .avatar {
   display: flex;
