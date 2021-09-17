@@ -113,7 +113,7 @@ export default {
       isShow: false,
       role: 0, // buyer:0   seller:1
       activeIndex: "/home",
-      inputValue: '',
+      inputValue: null,
       logo: require('../assets/img/logo.png'),
       defaultAvatar: '',
     };
