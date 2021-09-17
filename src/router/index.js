@@ -43,12 +43,12 @@ const routes = [
   {
     path: '/CourseDetail',
     name: '/CourseDetail',
-    component: () => import('../components/CourseDetail.vue'),
+    component: () => import('../views/CourseDetail.vue'),
   },
   {
     path: '/SnapshotDetail',
     name: '/SnapshotDetail',
-    component: () => import('../components/SnapshotDetail.vue'),
+    component: () => import('../views/SnapshotDetail.vue'),
   },
     {
     path: '/ShoppingCart',
