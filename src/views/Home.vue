@@ -6,7 +6,7 @@
       <div class="aside-div">
       <el-scrollbar>
         <div v-for="item in tabLists" :key="item">
-          <div class="tabItem" @click="gotoTagSearch(item.tag_id)">
+          <div class="tabItem" @click="gotoTagSearch(item.tag_name)">
           <span>{{ item.tag_name }}</span>
           <el-icon :size="14" color="#9c9ba6" class="tabIcon">
           <caret-right />
@@ -92,7 +92,7 @@ export default {
       console.log("===================tagID=================", event);
       router.push({
         path: '/Font',
-        query: {tag_id: event}
+        query: {content: event}
       })
     },
     handleClick(tab) {

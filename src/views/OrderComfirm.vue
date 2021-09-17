@@ -7,23 +7,23 @@
                 <div id="mainPanel" style="width: 100%;">
                     <el-container style="width: 84%; margin-left: 8%;">
                         <el-header style="
-                        background-color: rgba(0, 0, 0, 0); 
+                        background-color: rgba(0, 0, 0, 0);
                         height: 100px;
                         line-height: 100px;
                         ">
                             <b style="
-                            font-size: xx-large; 
-                            font-weight: lighter; 
+                            font-size: xx-large;
+                            font-weight: lighter;
                             margin-right: 10px;
                             ">确认订单</b>
                             <b style="
-                            font-size: small; 
+                            font-size: small;
                             font-weight: lighter;
-                            margin-right: 900px;    
+                            margin-right: 900px;
                             ">共{{lessons.length}}门课程</b>
                         </el-header>
                         <el-main style="
-                        background-color: rgb(253, 253, 253); 
+                        background-color: rgb(253, 253, 253);
                         border-radius: 15px;
                         box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
                         overflow-y:hidden;
@@ -33,17 +33,17 @@
                                 <i class="el-icon-goods"></i>
                                 <b style="
                                 font-size: medium;
-                                font-weight: lighter; 
+                                font-weight: lighter;
                                 ">订单号：21092768653216865</b>
                             </div>
                             <div style="float:left; text-align:right; width:50%">
                                 <b style="
                                 font-size: medium;
-                                font-weight: lighter; 
+                                font-weight: lighter;
                                 ">订单时间：{{getCurrentTime}}</b>
                             </div>
                         </div>
-                        
+
                         <el-divider style="margin-top:60px"></el-divider>
                         <template v-for="item in lessons" :key="item.id">
                             <div id="lesson" class="flex" style="width:80%; float:left; height: 80px; line-height: 20px; margin-left:5%">
@@ -62,14 +62,14 @@
                                 <i class="el-icon-bank-card"></i>
                                 <b style="
                                 font-size: medium;
-                                font-weight: lighter; 
+                                font-weight: lighter;
                                 ">支付方式</b>
                             </div>
                             <div style="float:left; text-align:right; width:50%">
                                 <b style="
                                 color: rgb(236, 27, 27);
                                 font-size: medium;
-                                font-weight: lighter; 
+                                font-weight: lighter;
                                 ">使用银联支付，随机减免1-5元</b>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                             style="cursor: pointer;border-radius: 10px; border-color: rgb(201, 202, 211); margin-right: 50px; margin-left: 0px;"/>
                             <img v-if="isAli" src="../assets/AliPay.jpg" border="2" @click="alipayCancel"
                             style="cursor: pointer;border-radius: 10px; border-color: rgb(247, 13, 13); margin-right: 50px; margin-left: 0px;"/>
-                            
+
                             <img v-if="!isWe" src="../assets/WechatPay.jpg" border="2" @click="wechatpay"
                             style="cursor: pointer;border-radius: 10px; border-color: rgb(201, 202, 211); margin-right: 50px; margin-left: 0px;"/>
                             <img v-if="isWe" src="../assets/WechatPay.jpg" border="2" @click="wechatpayCancel"
@@ -102,9 +102,9 @@
                         </div>
                         <div align="right" style="height: 100px;margin-top: -80px;margin-bottom: 30px;">
                             <el-button @click="buy" type="danger" size="large" style="
-                            background-color: red; 
-                            height: 50px; 
-                            width: 150px; 
+                            background-color: red;
+                            height: 50px;
+                            width: 150px;
                             font-size: large;
                             font-weight: lighter;
                             margin-right: 30px;
@@ -180,7 +180,7 @@ export default {
                 ids.push(this.lessons[i].id);
             }
             console.log(ids);
-            
+
             /*axios.post('/api/order/place_order', {
                 params: {
                     courses_id: ids
@@ -195,7 +195,7 @@ export default {
                     }
                  });
             })*/
-            
+
             var data = {courses_id: ids}
             axios({
                 url: "/api/order/place_order",
@@ -210,7 +210,7 @@ export default {
                         this.$router.push({ path: "/OrderDetail", query: {id: res.data.data.order_id} });
                     }
                 });
-                
+
             })
             /*
             this.$alert('购买成功！', '恭喜', {
@@ -248,7 +248,7 @@ export default {
                 params: {
                     course_id: detailArr[i]
                 }
-            }).then(res => {//接口返回数据  
+            }).then(res => {//接口返回数据
                 //console.log(params.data.data);
                 console.log(res);
                 var d = res.data.data;
@@ -268,7 +268,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .el-row {
         margin-bottom: 20px;
     }
@@ -319,7 +319,7 @@ export default {
     }
     .el-container:nth-child(7) .el-aside {
         line-height: 320px;
-    } 
+    }
 
     a:link{
         color:#333;

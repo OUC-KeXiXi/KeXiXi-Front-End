@@ -73,8 +73,8 @@ export default ({
             editDialogVisible: false,
 
             userMessage: {
-                nickname: '2324',
-                email: '213242',
+                nickname: '',
+                email: '',
                 password: ''
             },
             // new_nickname: '',

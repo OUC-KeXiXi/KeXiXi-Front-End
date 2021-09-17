@@ -19,7 +19,7 @@
                                     </el-input>
                                 </p>
                             </div>
-<!--                            <div style="margin-top: -30px; margin-left: -13.5%;">
+                           <div style="margin-top: -30px; margin-left: -13.5%;">
                                 <b style="margin-left: -835px; font-size: medium; padding-right: 10px">分类:</b>
                                     <el-button @click="changeBtn1()" :type="!showmode1 ? 'text' : 'grey'" plain style="color: black;"><span style="font-size: small; ">不限</span></el-button>
                                     <el-button @click="changeBtn2()" :type="!showmode2 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small;">前端</span></el-button>
@@ -27,7 +27,7 @@
                                     <el-button @click="changeBtn4()" :type="!showmode4 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small; ">Vue</span></el-button>
                                     <el-button @click="changeBtn5()" :type="!showmode5 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small; ">Django</span></el-button>
                                     <el-button @click="changeBtn6()" :type="!showmode6 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small;">SpringBoot</span></el-button>
-                            </div>-->
+                            </div>
                         </el-header>
                         <el-main style="background-color: #ffffff; margin-left: 0%; height: 900px">
                           <div style="text-align: left; margin-left: -20px; margin-top: -10px;">
@@ -40,7 +40,7 @@
                               <template v-for="item in lessons.slice(0 + (currentPage - 1) * 15, 5 + (currentPage - 1) * 15)" :key="item.course_id" >
                               <el-col :span="4.9">
                                 <el-card :body-style="{ padding: '0px' }" shadow="hover" style="height: 250px; width: 262px;">
-                                <router-link :to="{path: '/CourseDetail', query:{course_id: item.id}}">  
+                                <router-link :to="{path: '/CourseDetail', query:{course_id: item.id}}">
                                   <img :src="item.img" class="image" style="height: 144px; width: 262px">
                                  </router-link>
                                   <div style="text-align: left; margin-left: 5px; margin-top: 3px; line-height: 15px; width: 250px;">
@@ -57,16 +57,16 @@
                                             </div>
                                         </el-card>
                                     </el-col>
-                                </template>    
+                                </template>
                             </el-row>
                         </div>
-                        
+
                         <div v-if="lessons.length > 5" style="margin-top: 20px; margin-left: 0px">
                               <el-row :gutter="20">
                               <template v-for="item in lessons.slice(5 + (currentPage - 1) * 15, 10 + (currentPage - 1) * 15)" :key="item.course_id">
                               <el-col :span="4.9">
                                 <el-card :body-style="{ padding: '0px' }" shadow="hover" style="height: 250px; width: 262px;">
-                                   <router-link :to="{path: '/CourseDetail', query:{course_id: item.id}}">  
+                                   <router-link :to="{path: '/CourseDetail', query:{course_id: item.id}}">
                                   <img :src="item.img" class="image" style="height: 144px; width: 262px">
                                  </router-link>
                                   <div style="text-align: left; margin-left: 5px; margin-top: 3px; line-height: 15px; width: 250px;">
@@ -83,7 +83,7 @@
                                             </div>
                                         </el-card>
                                     </el-col>
-                                </template>    
+                                </template>
                             </el-row>
                         </div>
 
@@ -92,7 +92,7 @@
                               <template v-for="item in lessons.slice(10 + (currentPage - 1) * 15, 15 + (currentPage - 1) * 15)" :key="item.course_id">
                               <el-col :span="4.9">
                                 <el-card :body-style="{ padding: '0px' }" shadow="hover" style="height: 250px; width: 262px;">
-                                  <router-link :to="{path: '/CourseDetail', query:{course_id: item.id}}">  
+                                  <router-link :to="{path: '/CourseDetail', query:{course_id: item.id}}">
                                   <img :src="item.img" class="image" style="height: 144px; width: 262px">
                                  </router-link>
                                   <div style="text-align: left; margin-left: 5px; margin-top: 3px; line-height: 15px; width: 250px;">
@@ -109,7 +109,7 @@
                                             </div>
                                         </el-card>
                                     </el-col>
-                                </template>    
+                                </template>
                             </el-row>
                         </div>
                         </el-main>
@@ -130,7 +130,7 @@
                 <Bottom style="line-height: 15px; height: 130px"></Bottom>
             </el-main>
         </el-container>
-        
+
     </div>
 </template>
 
@@ -169,7 +169,7 @@ export default {
             }
         },
         methods: {
-            gotoSearch() {  // 控制按钮 
+            gotoSearch() {  // 控制按钮
                 this.lessons.splice(0, this.lessons.length);
                 this.content = this.inputValue;
                 console.log(this.content);
@@ -197,7 +197,7 @@ export default {
                         params: {
                             course_id: response.data.data.courses[i].course_id
                         }
-                    }).then(res => {//接口返回数据  
+                    }).then(res => {//接口返回数据
                         //console.log(params.data.data);
                         console.log(res);
                         var d = res.data.data;
@@ -212,7 +212,7 @@ export default {
                                 };
                                 t.lessons.push(temp);
                         } else if (d.tags.length != 0){
-                            
+
                                 for (let j = 0; j < d.tags.length; j++) {
                                 if (d.tags[j].tag_id == this.tagOne) {
                                 var temp = {
@@ -226,9 +226,9 @@ export default {
                                 break;
                             }
                         }
-                            
-                        } 
-                        
+
+                        }
+
                     })
                 }
             })
@@ -250,7 +250,7 @@ export default {
                         params: {
                             course_id: response.data.data.courses[i].course_id
                         }
-                    }).then(res => {//接口返回数据  
+                    }).then(res => {//接口返回数据
                         //console.log(params.data.data);
                         console.log(res);
                         var d = res.data.data;
@@ -265,7 +265,7 @@ export default {
                                 };
                                 t.lessons.push(temp);
                         } else if (d.tags.length != 0){
-                            
+
                                 for (let j = 0; j < d.tags.length; j++) {
                                 if (d.tags[j].tag_id == this.tagOne) {
                                 var temp = {
@@ -279,9 +279,9 @@ export default {
                                 break;
                             }
                         }
-                            
-                        } 
-                        
+
+                        }
+
                     })
                 }
             })
@@ -303,7 +303,7 @@ export default {
                         params: {
                             course_id: response.data.data.courses[i].course_id
                         }
-                    }).then(res => {//接口返回数据  
+                    }).then(res => {//接口返回数据
                         //console.log(params.data.data);
                         console.log(res);
                         var d = res.data.data;
@@ -318,7 +318,7 @@ export default {
                                 };
                                 t.lessons.push(temp);
                         } else if (d.tags.length != 0){
-                            
+
                                 for (let j = 0; j < d.tags.length; j++) {
                                 if (d.tags[j].tag_id == this.tagOne) {
                                 var temp = {
@@ -332,9 +332,9 @@ export default {
                                 break;
                             }
                         }
-                            
-                        } 
-                        
+
+                        }
+
                     })
                 }
             })
@@ -388,7 +388,7 @@ export default {
                                         break;
                                 }
                             }
-                        } 
+                        }
                     }
                 })
             },
@@ -400,7 +400,7 @@ export default {
                 this.showmode3 = false;
                 this.showmode4 = false;
                 this.showmode5 = false;
-                this.showmode6 = false;  
+                this.showmode6 = false;
                 this.tagOne = 0;
                 console.log("content是" + this.content);
 
@@ -421,7 +421,7 @@ export default {
                 this.showmode3 = false;
                 this.showmode4 = false;
                 this.showmode5 = false;
-                this.showmode6 = false;  
+                this.showmode6 = false;
                 this.tagOne = 1;
                 if (this.content != null) {
                      console.log("content不为null")
@@ -439,7 +439,7 @@ export default {
                 this.showmode1 = false;
                 this.showmode4 = false;
                 this.showmode5 = false;
-                this.showmode6 = false;  
+                this.showmode6 = false;
                 this.tagOne = 2;
                 if (this.content != null) {
                     this.searchTwo();
@@ -455,7 +455,7 @@ export default {
                 this.showmode3 = false;
                 this.showmode1 = false;
                 this.showmode5 = false;
-                this.showmode6 = false;  
+                this.showmode6 = false;
                 this.tagOne = 3;
                 if (this.content != null) {
                     this.searchTwo();
@@ -471,7 +471,7 @@ export default {
                 this.showmode3 = false;
                 this.showmode4 = false;
                 this.showmode1 = false;
-                this.showmode6 = false;  
+                this.showmode6 = false;
                 this.tagOne = 4;
                 if (this.content != null) {
                     this.searchTwo();
@@ -487,7 +487,7 @@ export default {
                 this.showmode3 = false;
                 this.showmode4 = false;
                 this.showmode1 = false;
-                this.showmode5 = false;  
+                this.showmode5 = false;
                 this.tagOne = 5;
                 if (this.content != null) {
                     this.searchTwo();
@@ -601,7 +601,7 @@ export default {
                     params: {
                         course_id: response.data.data.courses[i].course_id
                     }
-                }).then(res => {//接口返回数据  
+                }).then(res => {//接口返回数据
                         //console.log(params.data.data);
                         var d = res.data.data;
                         var temp = {
@@ -661,7 +661,7 @@ export default {
         }
         .el-main {
             background-color: #E9EEF3;
-            
+
             text-align: center;
             line-height: 0px;
         }
@@ -674,7 +674,7 @@ export default {
         }
         .el-container:nth-child(7) .el-aside {
             line-height: 320px;
-        } 
+        }
 
         a:link{
             color:#333;
@@ -712,10 +712,10 @@ export default {
             padding: 0;
             min-height: auto;
         }
-        
+
         .image {
             width: 210px;
             height: 120px;
             display: block;
-        }  
+        }
 </style>
