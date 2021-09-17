@@ -30,6 +30,7 @@ const routes = [
     path: '/UserCenter',
     name: '/UserCenter',
     component: () => import('../components/UserCenter/UserCenter.vue'),
+    redirect: '/UserMessage',
     children: [
       { path: '/UserMessage', component: () => import('../components/UserCenter/UserMessage.vue') },
       { path: '/PurchasedCourses', component: () => import('../components/UserCenter/PurchasedCourses.vue') }
