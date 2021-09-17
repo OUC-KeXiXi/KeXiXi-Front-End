@@ -19,7 +19,7 @@
                                     </el-input>
                                 </p>
                             </div>
-                            <div style="margin-top: -30px; margin-left: -13.5%;">
+<!--                            <div style="margin-top: -30px; margin-left: -13.5%;">
                                 <b style="margin-left: -835px; font-size: medium; padding-right: 10px">分类:</b>
                                     <el-button @click="changeBtn1()" :type="!showmode1 ? 'text' : 'grey'" plain style="color: black;"><span style="font-size: small; ">不限</span></el-button>
                                     <el-button @click="changeBtn2()" :type="!showmode2 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small;">前端</span></el-button>
@@ -27,7 +27,7 @@
                                     <el-button @click="changeBtn4()" :type="!showmode4 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small; ">Vue</span></el-button>
                                     <el-button @click="changeBtn5()" :type="!showmode5 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small; ">Django</span></el-button>
                                     <el-button @click="changeBtn6()" :type="!showmode6 ? 'text' : 'grey'" plain style="color: black"><span style="font-size: small;">SpringBoot</span></el-button>
-                            </div>
+                            </div>-->
                         </el-header>
                         <el-main style="background-color: #ffffff; margin-left: 0%; height: 900px">
                           <div style="text-align: left; margin-left: -20px; margin-top: -10px;">

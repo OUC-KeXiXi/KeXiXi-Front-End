@@ -254,7 +254,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     .el-row {
         margin-bottom: 20px;
     }
