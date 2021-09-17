@@ -161,6 +161,7 @@ export default {
           this.$message.success('注销成功！');
           this.isLogin = false;
           this.role = 0;
+          this.$router.push({path: "/"})
         }
         else {
           this.$message.error('注销失败：'+response.data.msg);
